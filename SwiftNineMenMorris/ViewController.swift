@@ -13,17 +13,24 @@ class ViewController: UIViewController {
     var gridCell: [UIImageView] = []
     var marker: [UIImageView] = []
     
+    var p1: [UIImageView] = []
+    var p2: [UIImageView] = []
+    
     var cellX: [CGFloat] = []
     var cellY: [CGFloat] = []
     
     
     // Must fix the sizes
-    var cellWidth = 40
-    var cellHeight = 40
+    var cellWidth: CGFloat = 40.0
+    var cellHeight: CGFloat = 40.0
     var squares = 49
-    var markers = 24
-    var leftX = 100/2
-    var topY = 100/2
+    var markers = 9
+    
+    var p1markers = 9
+    var p2markers = 9
+    
+    var leftX: CGFloat = 100.0
+    var topY: CGFloat = 100.0
     
     var which: Int!
     
@@ -42,13 +49,19 @@ class ViewController: UIViewController {
         var col = 0
         var firstColor = 0
         
+        leftX = self.view.frame.width/9
+        
+        cellWidth = self.view.frame.width/9
+        cellHeight = cellWidth
+        
+        topY = (cellWidth * 8) / 2
+        
+        println("cell: \(cellWidth)")
+        
         println(gridCell.capacity)
         println(marker.capacity)
         
         for var i = 0; i < squares; ++i {
-            
-            var x = (leftX + ( cellWidth * col))
-            var y = (topY + ( cellHeight * row))
             
             if firstColor == 0 {
                 gridCell.append(UIImageView(image: UIImage(named: "Black")))
@@ -62,7 +75,7 @@ class ViewController: UIViewController {
             marker[i].hidden = true
             */
             
-            gridCell[i].frame = CGRectMake(CGFloat((leftX + (cellWidth * col))), CGFloat((topY + (cellHeight * row))), CGFloat(cellWidth), CGFloat(cellHeight))
+            gridCell[i].frame = CGRectMake((leftX + (cellWidth * CGFloat(col))), (topY + (cellHeight * CGFloat(row))), CGFloat(cellWidth), CGFloat(cellHeight))
             
             //marker[i].frame = CGRectMake(CGFloat((leftX + (cellWidth * col))), CGFloat((topY + (cellHeight * row))), CGFloat(cellWidth), CGFloat(cellHeight))
             
@@ -94,7 +107,7 @@ class ViewController: UIViewController {
         for var i = 0; i < markers ; ++i {
             marker.append(UIImageView(image: UIImage(named: "White")))
             marker[i].hidden = false
-            marker[i].frame = CGRectMake(CGFloat((leftX + (cellWidth * col))), cellY[squares-1] + CGFloat(( cellHeight + (cellHeight * row))), CGFloat(cellWidth), CGFloat(cellHeight))
+            marker[i].frame = CGRectMake((leftX + (cellWidth * CGFloat(col))), cellY[squares-1] + ( cellHeight + (cellHeight * CGFloat(row))), cellWidth, cellHeight)
             
             
             
