@@ -19,8 +19,10 @@ class ViewController: UIViewController {
     var cellX: [CGFloat] = []
     var cellY: [CGFloat] = []
     
+    var background: UIImageView!
     
-    // Must fix the sizes
+    @IBOutlet weak var infoLabel: UILabel!
+    
     var cellWidth: CGFloat = 40.0
     var cellHeight: CGFloat = 40.0
     var squares = 49
@@ -41,16 +43,29 @@ class ViewController: UIViewController {
     var markerX: [CGFloat] = []
     var markerY: [CGFloat] = []
     
+    
+    var isP1turn: Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        var i = 0
+        
         var row = 0
         var col = 0
-        var firstColor = 0
+        
+        isP1turn = true
+        
+        // Set background with an image
+        background = UIImageView(image: UIImage(named: "Background"))
+        background.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        self.view.addSubview(background)
+        
+        
+        infoLabel.text = "Player 1's turn"
+        self.view.addSubview(infoLabel)
         
         leftX = self.view.frame.width/9
-        
+     
         cellWidth = self.view.frame.width/9
         cellHeight = cellWidth
         
@@ -58,77 +73,78 @@ class ViewController: UIViewController {
         
         println("cell: \(cellWidth)")
         
-        println(gridCell.capacity)
-        println(marker.capacity)
         
         for var i = 0; i < squares; ++i {
-            
-            if firstColor == 0 {
-                gridCell.append(UIImageView(image: UIImage(named: "Black")))
-            } else {
-                gridCell.append(UIImageView(image: UIImage(named: "Red")))
-            }
-            
-            
-            /*
-            marker.append(UIImageView(image: UIImage(named: "White")))
-            marker[i].hidden = true
-            */
+           
+            gridCell.append(UIImageView(image: UIImage(named: "piece\(i).png")))
             
             gridCell[i].frame = CGRectMake((leftX + (cellWidth * CGFloat(col))), (topY + (cellHeight * CGFloat(row))), CGFloat(cellWidth), CGFloat(cellHeight))
-            
-            //marker[i].frame = CGRectMake(CGFloat((leftX + (cellWidth * col))), CGFloat((topY + (cellHeight * row))), CGFloat(cellWidth), CGFloat(cellHeight))
-            
             
             cellX.append(gridCell[i].center.x)
             cellY.append(gridCell[i].center.y)
             
-            if checkIfOk(i){
-                self.view.addSubview(gridCell[i])
-            }
-            //self.view.addSubview(marker[i])
-            
+            self.view.addSubview(gridCell[i])
+
             col += 1
-            firstColor = 1 - firstColor
             if col > 6 {
                 row += 1
-                //firstColor = 1 - firstColor
                 col = 0
             }
-            
-            //gridCell[i].userInteractionEnabled = true
-            //gridCell[i].multipleTouchEnabled = true
-            
         }
         
+        
+        // Creating player 1
         row = 0
         col = 0
         
         for var i = 0; i < markers ; ++i {
-            marker.append(UIImageView(image: UIImage(named: "White")))
-            marker[i].hidden = false
-            marker[i].frame = CGRectMake((leftX + (cellWidth * CGFloat(col))), cellY[squares-1] + ( cellHeight + (cellHeight * CGFloat(row))), cellWidth, cellHeight)
-            
-            
+            p1.append(UIImageView(image: UIImage(named: "Green")))
+            p1[i].hidden = false
+            p1[i].frame = CGRectMake((leftX + (cellWidth * CGFloat(col))), cellY[squares-1] + ( cellHeight + (cellHeight * CGFloat(row))), cellWidth, cellHeight)
             
             col += 1
-            if col > 6 {
+            if col > 2 {
                 row += 1
                 col = 0
             }
-            self.view.addSubview(marker[i])
+            self.view.addSubview(p1[i])
             
-            marker[i].userInteractionEnabled = true
-            marker[i].multipleTouchEnabled = true
+            p1[i].userInteractionEnabled = true
+            p1[i].multipleTouchEnabled = true
         }
         
         
+        // Creating player 2
+        col = 0
+        row = 0
+        
+        for var i = 0; i < markers ; ++i {
+            p2.append(UIImageView(image: UIImage(named: "Red")))
+            p2[i].hidden = false
+            p2[i].frame = CGRectMake((cellWidth * 5 + (cellWidth * CGFloat(col))), cellY[squares-1] + ( cellHeight + (cellHeight * CGFloat(row))), cellWidth, cellHeight)
+            
+            col += 1
+            if col > 2 {
+                row += 1
+                col = 0
+            }
+            self.view.addSubview(p2[i])
+            
+            p2[i].userInteractionEnabled = true
+            p2[i].multipleTouchEnabled = true
+        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         var touch = touches.anyObject() as UITouch
         var point = touch.locationInView(self.view)
+        
+        if isP1turn.boolValue {
+            marker = p1
+        } else {
+            marker = p2
+        }
         
         which = 0
         for var i = 0 ; i < markers ; ++i {
@@ -143,14 +159,9 @@ class ViewController: UIViewController {
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        //self.touchesBegan(touches, withEvent: event)
-        
         var touch = touches.anyObject() as UITouch
         
-        //for touch in touches {
         let location = touch.locationInView(self.view)
-        //let touchedNode = nodeAtPoint(location)
-        //touchedNode.position = location
         for var i = 0 ; i < markers ; ++i {
             if touch.view == marker[i] {
                 marker[i].center = location
@@ -192,6 +203,13 @@ class ViewController: UIViewController {
                     
                     if checkIfOk(closest){
                         marker[which].center = CGPointMake(cellX[closest], cellY[closest])
+                        
+                        if isP1turn.boolValue {
+                            isP1turn = false
+                        } else {
+                            isP1turn = true
+                        }
+                        
                     } else {
                         marker[which].center = CGPointMake(whichX, whichY)
                     }
