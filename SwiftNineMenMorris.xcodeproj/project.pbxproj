@@ -13,6 +13,9 @@
 		2B5E92061A2789A900BF285B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E92051A2789A900BF285B /* Images.xcassets */; };
 		2B5E92091A2789A900BF285B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E92071A2789A900BF285B /* LaunchScreen.xib */; };
 		2B5E92151A2789A900BF285B /* SwiftNineMenMorrisTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5E92141A2789A900BF285B /* SwiftNineMenMorrisTests.swift */; };
+		2B5E92211A278A7700BF285B /* Black.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E921E1A278A7700BF285B /* Black.png */; };
+		2B5E92221A278A7700BF285B /* Red.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E921F1A278A7700BF285B /* Red.png */; };
+		2B5E92231A278A7700BF285B /* White.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E92201A278A7700BF285B /* White.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 		2B5E920E1A2789A900BF285B /* SwiftNineMenMorrisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftNineMenMorrisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5E92131A2789A900BF285B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B5E92141A2789A900BF285B /* SwiftNineMenMorrisTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftNineMenMorrisTests.swift; sourceTree = "<group>"; };
+		2B5E921E1A278A7700BF285B /* Black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Black.png; sourceTree = "<group>"; };
+		2B5E921F1A278A7700BF285B /* Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Red.png; sourceTree = "<group>"; };
+		2B5E92201A278A7700BF285B /* White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = White.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,9 @@
 				2B5E92021A2789A900BF285B /* Main.storyboard */,
 				2B5E92051A2789A900BF285B /* Images.xcassets */,
 				2B5E92071A2789A900BF285B /* LaunchScreen.xib */,
+				2B5E921E1A278A7700BF285B /* Black.png */,
+				2B5E921F1A278A7700BF285B /* Red.png */,
+				2B5E92201A278A7700BF285B /* White.png */,
 				2B5E91FC1A2789A900BF285B /* Supporting Files */,
 			);
 			path = SwiftNineMenMorris;
@@ -193,6 +202,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B5E92041A2789A900BF285B /* Main.storyboard in Resources */,
+				2B5E92221A278A7700BF285B /* Red.png in Resources */,
+				2B5E92211A278A7700BF285B /* Black.png in Resources */,
+				2B5E92231A278A7700BF285B /* White.png in Resources */,
 				2B5E92091A2789A900BF285B /* LaunchScreen.xib in Resources */,
 				2B5E92061A2789A900BF285B /* Images.xcassets in Resources */,
 			);
