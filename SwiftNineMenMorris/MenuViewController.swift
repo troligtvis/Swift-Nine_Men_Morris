@@ -15,21 +15,36 @@ class MenuViewController: UIViewController {
     var saveDataHandler: SaveDataHandler!
     var settingsDataHandler: SettingsDataHandler!
     
-    var isFly: Bool!
-    var pieces: Int!
+    var isFly: Bool = true
+    var pieces: Int = 9
+    var isPlayMusic: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
     }
     
+
+    // Passing data to the ViewController
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let settingsViewController = segue.sourceViewController as? SettingsViewController {
-            println("segue to settingsviewcontroller")
-        } else if let viewController = segue.sourceViewController as? ViewController {
-            println("segue to viewcontroller")
+        if segue.identifier == "settingsSegue" {
+            if let navController = segue.destinationViewController as? UINavigationController {
+                if let settingsViewController = navController.topViewController as? SettingsViewController {
+                    println("Segue to settingsviewcontroller")
+                }
+            }
+        } else if segue.identifier == "gameSegue" {
+            //println("pieces: \(pieces) fly: \(isFly) music: \(isPlayMusic)")
+            
+            if let navController = segue.destinationViewController as? UINavigationController {
+                if let viewController = navController.topViewController as? ViewController{
+                    println("Segue to viewcontroller")
+                    viewController.markers = pieces
+                    viewController.isPlayMusic = isPlayMusic
+                    viewController.isFly = isFly
+                }
+            }
         }
-        
     }
     
     
@@ -39,10 +54,19 @@ class MenuViewController: UIViewController {
             
             if settingsViewController.flySwitch.on{
                 isFly = true
-                println("on")
+                println("fly on")
             } else {
                 isFly = false
-                println("off")
+                println("fly off")
+            }
+            
+            
+            if settingsViewController.musicSwitch.on{
+                isPlayMusic = true
+                println("music on")
+            } else {
+                isPlayMusic = false
+                println("music off")
             }
             
             switch settingsViewController.segment.selectedSegmentIndex {

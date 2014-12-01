@@ -11,14 +11,11 @@ import UIKit
 class SettingsViewController: UIViewController {
 
     @IBOutlet weak var flySwitch: UISwitch!
+    @IBOutlet weak var musicSwitch: UISwitch!
     @IBOutlet weak var segment: UISegmentedControl!
     
-    @IBAction func backButton(sender: AnyObject) {
-        //println("\(flySwitch.on)")
-                
-        
-        //performSegueWithIdentifier("unwindToMenu", sender: self)
-    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
