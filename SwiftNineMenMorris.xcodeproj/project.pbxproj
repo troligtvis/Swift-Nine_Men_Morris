@@ -116,6 +116,15 @@
 		2B5E92F51A27E45000BF285B /* piece8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E928F1A27E45000BF285B /* piece8@2x.png */; };
 		2B5E92F61A27E45000BF285B /* piece9.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E92901A27E45000BF285B /* piece9.png */; };
 		2B5E92F71A27E45000BF285B /* piece9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E92911A27E45000BF285B /* piece9@2x.png */; };
+		2BAC9F921A2B69FD00E181D1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9F901A2B69FD00E181D1 /* SettingsViewController.swift */; };
+		2BAC9F951A2B6A7400E181D1 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9F941A2B6A7400E181D1 /* MenuViewController.swift */; };
+		2BAC9F981A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9F961A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodeld */; };
+		2BAC9F9A1A2BC43500E181D1 /* Saved.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9F991A2BC43500E181D1 /* Saved.swift */; };
+		2BAC9F9C1A2BC43500E181D1 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9F9B1A2BC43500E181D1 /* Setting.swift */; };
+		2BAC9F9F1A2BC47C00E181D1 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9F9E1A2BC47C00E181D1 /* CoreDataStack.swift */; };
+		2BAC9FA21A2BCAD900E181D1 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9FA11A2BCAD900E181D1 /* Async.swift */; };
+		2BAC9FA41A2BCB8D00E181D1 /* SettingsDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9FA31A2BCB8D00E181D1 /* SettingsDataHandler.swift */; };
+		2BAC9FA61A2BCBA200E181D1 /* SaveDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC9FA51A2BCBA200E181D1 /* SaveDataHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,6 +251,15 @@
 		2B5E928F1A27E45000BF285B /* piece8@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece8@2x.png"; sourceTree = "<group>"; };
 		2B5E92901A27E45000BF285B /* piece9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piece9.png; sourceTree = "<group>"; };
 		2B5E92911A27E45000BF285B /* piece9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece9@2x.png"; sourceTree = "<group>"; };
+		2BAC9F901A2B69FD00E181D1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		2BAC9F941A2B6A7400E181D1 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		2BAC9F971A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NineMenMorrisDB.xcdatamodel; sourceTree = "<group>"; };
+		2BAC9F991A2BC43500E181D1 /* Saved.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Saved.swift; sourceTree = "<group>"; };
+		2BAC9F9B1A2BC43500E181D1 /* Setting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		2BAC9F9E1A2BC47C00E181D1 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		2BAC9FA11A2BCAD900E181D1 /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
+		2BAC9FA31A2BCB8D00E181D1 /* SettingsDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsDataHandler.swift; path = ../SettingsDataHandler.swift; sourceTree = "<group>"; };
+		2BAC9FA51A2BCBA200E181D1 /* SaveDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SaveDataHandler.swift; path = ../SaveDataHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,13 +301,17 @@
 		2B5E91FB1A2789A900BF285B /* SwiftNineMenMorris */ = {
 			isa = PBXGroup;
 			children = (
-				2B5E922A1A27E45000BF285B /* marker image */,
-				2B5E922F1A27E45000BF285B /* pieces image */,
+				2BAC9FA01A2BCA4900E181D1 /* Resources */,
+				2BAC9F9D1A2BC46100E181D1 /* Model */,
+				2BAC9FA11A2BCAD900E181D1 /* Async.swift */,
+				2BAC9FA31A2BCB8D00E181D1 /* SettingsDataHandler.swift */,
+				2BAC9FA51A2BCBA200E181D1 /* SaveDataHandler.swift */,
 				2B5E91FE1A2789A900BF285B /* AppDelegate.swift */,
+				2BAC9F941A2B6A7400E181D1 /* MenuViewController.swift */,
 				2B5E92001A2789A900BF285B /* ViewController.swift */,
-				2B5E92021A2789A900BF285B /* Main.storyboard */,
+				2BAC9F901A2B69FD00E181D1 /* SettingsViewController.swift */,
 				2B5E92051A2789A900BF285B /* Images.xcassets */,
-				2B5E92241A27CE3300BF285B /* Background.png */,
+				2B5E92021A2789A900BF285B /* Main.storyboard */,
 				2B5E92071A2789A900BF285B /* LaunchScreen.xib */,
 				2B5E91FC1A2789A900BF285B /* Supporting Files */,
 			);
@@ -435,6 +457,27 @@
 				2B5E92911A27E45000BF285B /* piece9@2x.png */,
 			);
 			path = "pieces image";
+			sourceTree = "<group>";
+		};
+		2BAC9F9D1A2BC46100E181D1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2BAC9F961A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodeld */,
+				2BAC9F9E1A2BC47C00E181D1 /* CoreDataStack.swift */,
+				2BAC9F9B1A2BC43500E181D1 /* Setting.swift */,
+				2BAC9F991A2BC43500E181D1 /* Saved.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2BAC9FA01A2BCA4900E181D1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2B5E92241A27CE3300BF285B /* Background.png */,
+				2B5E922A1A27E45000BF285B /* marker image */,
+				2B5E922F1A27E45000BF285B /* pieces image */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -640,8 +683,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BAC9FA61A2BCBA200E181D1 /* SaveDataHandler.swift in Sources */,
+				2BAC9F981A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodeld in Sources */,
 				2B5E92011A2789A900BF285B /* ViewController.swift in Sources */,
 				2B5E91FF1A2789A900BF285B /* AppDelegate.swift in Sources */,
+				2BAC9F9A1A2BC43500E181D1 /* Saved.swift in Sources */,
+				2BAC9FA21A2BCAD900E181D1 /* Async.swift in Sources */,
+				2BAC9F9C1A2BC43500E181D1 /* Setting.swift in Sources */,
+				2BAC9F921A2B69FD00E181D1 /* SettingsViewController.swift in Sources */,
+				2BAC9F951A2B6A7400E181D1 /* MenuViewController.swift in Sources */,
+				2BAC9F9F1A2BC47C00E181D1 /* CoreDataStack.swift in Sources */,
+				2BAC9FA41A2BCB8D00E181D1 /* SettingsDataHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,6 +885,7 @@
 				2B5E921A1A2789A900BF285B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2B5E921B1A2789A900BF285B /* Build configuration list for PBXNativeTarget "SwiftNineMenMorrisTests" */ = {
 			isa = XCConfigurationList;
@@ -841,8 +894,22 @@
 				2B5E921D1A2789A900BF285B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2BAC9F961A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2BAC9F971A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodel */,
+			);
+			currentVersion = 2BAC9F971A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodel */;
+			path = NineMenMorrisDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2B5E91F11A2789A900BF285B /* Project object */;
 }

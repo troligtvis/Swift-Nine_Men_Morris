@@ -158,6 +158,30 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func backBtn(sender: AnyObject) {
+        var titleOnAlert = "Back to menu"
+        var messageOnAlert = "What to do?"
+        
+        let alertController = UIAlertController(title: titleOnAlert, message: messageOnAlert, preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            // Do nothing
+            println(action)
+        }
+        alertController.addAction(cancelAction)
+        
+        let destroyAction = UIAlertAction(title: "Save & Quit", style: .Destructive) { (action) in
+            // Handle save & quit
+            println(action)
+            
+            self.performSegueWithIdentifier("toMainFromGame", sender: nil)
+        }
+        alertController.addAction(destroyAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+    }
+    
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         var touch = touches.anyObject() as UITouch
         
@@ -206,8 +230,10 @@ class ViewController: UIViewController {
                         
                         if isP1turn.boolValue {
                             isP1turn = false
+                            infoLabel.text = "Player 2's turn"
                         } else {
                             isP1turn = true
+                            infoLabel.text = "Player 1's turn"
                         }
                         
                     } else {

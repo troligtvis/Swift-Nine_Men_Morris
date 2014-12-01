@@ -7,16 +7,28 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
+    
+    // FIX THE CORE DATA
+    //lazy var coreDataStack = CoreDataStack()
+    var saveDataHandler = SaveDataHandler()
+    var settingsDataHandler = SettingsDataHandler()
 
-
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let menuViewController = window!.rootViewController as MenuViewController
+     //   menuViewController.coreDataStack = coreDataStack
+        menuViewController.saveDataHandler = saveDataHandler
+        menuViewController.settingsDataHandler = settingsDataHandler
+        
         return true
+
     }
 
     func applicationWillResignActive(application: UIApplication) {
