@@ -30,6 +30,8 @@ class ViewController: UIViewController {
     // Player 2
     var player2: Player!
     
+    var turn: String!
+    
     // Settings
     var markers: Int!
     var isPlayMusic: Bool!
@@ -41,9 +43,9 @@ class ViewController: UIViewController {
         
         initBoard()
         
-        initPlayer(player1, name: "green", m: markers)
-        initPlayer(player2, name: "red", m: markers)
-    }
+        initPlayer("green", m: markers)
+        initPlayer("red", m: markers)
+    }// viewDidLoad
     
     func initBoard(){
         tileWidth = self.view.frame.width/9
@@ -67,11 +69,38 @@ class ViewController: UIViewController {
                 col = 0
             }
         }
-    }
+    }// initBoard
     
-    func initPlayer(player: Player, name: String, m: Int){
+    func initPlayer(name: String, m: Int){
+        if name == "green" {
+            player1 = Player(color: name, p: m)
+        } else {
+            player2 = Player(color: name, p: m)
+        }
         
-    }
+        var col = 0, row = 0
+        for var i = 0; i < m; ++i {
+            var p: UIImageView!
+            
+            if name == "green" {
+                p = player1.pieces[i]
+                p.frame = CGRectMake((leftX + (tileWidth * CGFloat(col))), tileY[tileCount-1] + ( tileHeight + (tileHeight * CGFloat(row))), tileWidth, tileHeight)
+                
+            } else {
+                p = player2.pieces[i]
+                p.frame = CGRectMake((tileWidth * 5 + (tileWidth * CGFloat(col))), tileY[tileCount-1] + ( tileHeight + (tileHeight * CGFloat(row))), tileWidth, tileHeight)
+            }
+
+            col += 1
+            if col > 2{
+                row += 1
+                col = 0
+            }
+            
+            self.view.addSubview(p)
+        }
+        
+    }// initPlayer
     
     @IBAction func backBtn(sender: AnyObject) {
         var titleOnAlert = ""
@@ -95,24 +124,69 @@ class ViewController: UIViewController {
         
         self.presentViewController(alertController, animated: true, completion: nil)
         
-    }
+    }// backBtn
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         var touch = touches.anyObject() as UITouch
         var point = touch.locationInView(self.view)
-        
-        
-    }
+
+        if let m = touch.view as? Piece{
+            
+        }
+    }// touchesBegan
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         var touch = touches.anyObject() as UITouch
         let location = touch.locationInView(self.view)
 
-        
-    }
+        if let m = touch.view as? Piece{
+            m.center = location
+        }
+    }// touchesMoved
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         var touch = touches.anyObject() as UITouch
-    }
+        
+        var closest: Int!
+        
+        if let m = touch.view as? Piece{
+            if ((m.center.x > CGFloat(leftX)) &&
+                (m.center.x < CGFloat(leftX) + 7.5 * CGFloat(tileWidth)) &&
+                (m.center.y > CGFloat(topY)) &&
+                (m.center.y < CGFloat(topY) + 7.5 * CGFloat(tileHeight))) {
+                
+                 closest = findClosest(m.center)
+                 m.center = CGPointMake(tileX[closest], tileY[closest])
+            }
+        }
+    }// touchesEnded
+    
+    func findClosest(p: CGPoint) -> Int{
+        var min = CGFloat(tileWidth) * CGFloat(tileWidth) * 2.0
+        var closest = 0
+        var dSquared: CGFloat = 0.0
+        var dX: CGFloat!
+        var dY: CGFloat!
+        
+        dX = p.x - tileX[1]
+        dY = p.y - tileY[1]
+        
+        min = dX * dX + dY * dY + 1.0
+        
+        for var i = 0; i < tileCount; ++i {
+            dX = p.x - tileX[i]
+            dY = p.y - tileY[i]
+            
+            dSquared = dX * dX + dY * dY
+            
+            if dSquared < min {
+                min = dSquared
+                closest = i
+            }
+        }
+        
+        return closest
+    }// findClosest
+
 }
 

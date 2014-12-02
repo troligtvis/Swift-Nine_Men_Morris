@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import UIKit
 
 class Player{
     
     var playerColor: String!
     var pieces: [Piece] = []
+    var piecesOnBoard: [Piece] = []
     
     init(color: String, p: Int){
         playerColor = color
@@ -22,9 +24,12 @@ class Player{
     
     func generatePieces(p: Int){
         for var i = 0; i < p; ++i {
-            pieces.append(Piece(o: -1, p: 0, name: playerColor))
-            pieces[i].userInteractionEnabled = true
+            pieces.append(Piece(o: -1, p: 0, name: playerColor, i: i))
+            //pieces[i].image.userInteractionEnabled = true
+            //pieces[i].image.multipleTouchEnabled = true
+            
             pieces[i].multipleTouchEnabled = true
+            pieces[i].userInteractionEnabled = true
         }
     }
     

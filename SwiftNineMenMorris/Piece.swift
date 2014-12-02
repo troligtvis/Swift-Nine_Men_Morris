@@ -14,18 +14,23 @@ class Piece: UIImageView{
     var oldPos: Int!
     var newPos: Int!
     var imageName: String!
+    var id: Int!
+    //var image: UIImageView!
     
-    init(o: Int, p: Int, name: String) {
+    init(o: Int, p: Int, name: String, i: Int) {
         super.init()
         
         oldPos = o
         newPos = p
         imageName = name
-        self.image = UIImage(named: name)
+        id = i
         //image = UIImageView(image: UIImage(named: name))
+        self.image = UIImage(named: name)
     }
     
-    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
