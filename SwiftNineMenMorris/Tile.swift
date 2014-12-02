@@ -17,17 +17,14 @@ enum State: Int {
 
 
 class Tile{
-/*
-    var stateType: State!
-    var named: String!
+    var tileState: State!
+    var imageName: String!
+    var image: UIImageView!
     
-    init(imageName: String) {
-        //super.init()
-     
-        named = imageName
-        stateType = State.empty.rawValue
+    init(name: String) {
+        imageName = name
+        tileState = State.empty
+        
+        image = UIImageView(image: UIImage(named: name))
     }
-    
-   */
-    
 }

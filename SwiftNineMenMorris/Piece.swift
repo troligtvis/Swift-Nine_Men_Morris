@@ -7,15 +7,27 @@
 //
 
 import Foundation
+import UIKit
 
-class Piece{
+class Piece: UIImageView{
     
-    var isMoveable: Bool!
+    var oldPos: Int!
+    var newPos: Int!
     var imageName: String!
     
-    func pieceInit(n: String, m: Bool){
-        isMoveable = m
-        imageName = n
+    init(o: Int, p: Int, name: String) {
+        super.init()
+        
+        oldPos = o
+        newPos = p
+        imageName = name
+        self.image = UIImage(named: name)
+        //image = UIImageView(image: UIImage(named: name))
     }
     
+    
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

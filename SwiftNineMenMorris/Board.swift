@@ -11,11 +11,12 @@ import Foundation
 
 
 class Board {
-
-    /*
     
-    func initbo(){
-        var t = Tile(imageName: "piece1.png")
-        
-    }*/
+    var tiles: [Tile] = []
+    
+    init(tileCount: Int, tileSize: Float){
+        for var i = 0; i < tileCount; ++i {
+            tiles.append(Tile(name: "piece\(i).png"))
+        }
+    }
 }
