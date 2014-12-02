@@ -12,4 +12,10 @@ import Foundation
 
 class Board {
 
+    /*
+    
+    func initbo(){
+        var t = Tile(imageName: "piece1.png")
+        
+    }*/
 }

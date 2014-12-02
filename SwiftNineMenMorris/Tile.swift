@@ -7,9 +7,27 @@
 //
 
 import Foundation
+import UIKit
+
+
+enum State: Int {
+    case unknown = 0, p1occ, p2occ, empty
+}
+
+
 
 class Tile{
+/*
+    var stateType: State!
+    var named: String!
     
+    init(imageName: String) {
+        //super.init()
+     
+        named = imageName
+        stateType = State.empty.rawValue
+    }
     
+   */
     
 }

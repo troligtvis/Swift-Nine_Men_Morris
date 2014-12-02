@@ -9,12 +9,18 @@
 import UIKit
 import AVFoundation
 
-enum State: Int {
-    case unknown = 0, p1occ, p2occ, empty
-}
+
 
 class ViewController: UIViewController {
 
+    /* * * För testning * * * * * * * */
+   
+    
+    /* * * * * * * * * * * * * * * * */
+    
+    var leftPieceView: UIImageView!
+    
+    
     var gridCell: [UIImageView] = []
     var marker: [UIImageView] = []
     
@@ -22,6 +28,10 @@ class ViewController: UIViewController {
     
     var p1: [UIImageView] = []
     var p2: [UIImageView] = []
+    
+    var p1OnBoard: [UIImageView] = []
+    var p2OnBoard: [UIImageView] = []
+    
     
     var cellX: [CGFloat] = []
     var cellY: [CGFloat] = []
@@ -37,6 +47,11 @@ class ViewController: UIViewController {
     
     var p1markers: Int! // = 9
     var p2markers: Int! // = 9
+    
+    var p1markers2: Int!
+    var p2markers2: Int!
+    
+    var totalMarkers: Int!
     
     var leftX: CGFloat = 100.0
     var topY: CGFloat = 100.0
@@ -54,12 +69,19 @@ class ViewController: UIViewController {
     var isP1turn: Bool!
     var isFly: Bool!
     
+    // Audio
     var audioPlayer: AVAudioPlayer!
     var isPlayMusic: Bool!
+    
+    
+    var isMoveable: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        
         
         var row = 0
         var col = 0
@@ -68,6 +90,12 @@ class ViewController: UIViewController {
         
         p1markers = markers
         p2markers = markers
+        
+        p1markers2 = 0
+        p2markers2 = 0
+        
+        
+        totalMarkers = markers * 2
         
         playMusic(isPlayMusic!)
         
@@ -92,18 +120,26 @@ class ViewController: UIViewController {
         println("cell: \(cellWidth)")
         
         
+        
+        /* * * För testning * * * * * * * */
+
+        /* * * * * * * * * * * * * * * * */
+        
+        
         for var i = 0; i < squares; ++i {
            
             gridCell.append(UIImageView(image: UIImage(named: "piece\(i).png")))
             
             gridCell[i].frame = CGRectMake((leftX + (cellWidth * CGFloat(col))), (topY + (cellHeight * CGFloat(row))), CGFloat(cellWidth), CGFloat(cellHeight))
             
+            
+            
             cellX.append(gridCell[i].center.x)
             cellY.append(gridCell[i].center.y)
             
             // State
             state.append(State.empty.rawValue)
-            
+        
             self.view.addSubview(gridCell[i])
             
             col += 1
@@ -122,6 +158,8 @@ class ViewController: UIViewController {
             p1.append(UIImageView(image: UIImage(named: "Green")))
             //p1[i].hidden = false
             p1[i].frame = CGRectMake((leftX + (cellWidth * CGFloat(col))), cellY[squares-1] + ( cellHeight + (cellHeight * CGFloat(row))), cellWidth, cellHeight)
+            
+            //p1[i].frame = CGRectMake(0+(cellWidth * CGFloat(col)), 0, cellWidth, cellHeight)
             
             col += 1
             if col > 2 {
@@ -186,21 +224,28 @@ class ViewController: UIViewController {
         var point = touch.locationInView(self.view)
         
         if isP1turn.boolValue {
-            marker = p1
+            if (p1markers != 0){
+                marker = p1
+                markers = p1markers
+            } else {
+                marker = p1OnBoard
+                markers = p1markers2
+            }
         } else {
-            marker = p2
+            if (p2markers != 0){
+                marker = p2
+                markers = p2markers
+            } else {
+                marker = p2OnBoard
+                markers = p2markers2
+            }
         }
         
-        
-        
         var closest = 0
-
         
-        
-        
-        which = 0
+        which = -1
         for var i = 0 ; i < markers ; ++i {
-            if touch.view == marker[i] {
+            if touch.view == marker[i] && checkBoundry(i) == false{
                 whichX = marker[i].center.x
                 whichY = marker[i].center.y
                 
@@ -221,12 +266,42 @@ class ViewController: UIViewController {
         }
     }
     
-
+    func checkBoundry(which: Int) -> Bool {
+        if which >= 0 {
+            if ((marker[which].center.x > CGFloat(leftX)) &&
+                (marker[which].center.x < CGFloat(leftX) + 7.5 * CGFloat(cellWidth)) &&
+                (marker[which].center.y > CGFloat(topY)) &&
+                (marker[which].center.y < CGFloat(topY) + 7.5 * CGFloat(cellHeight))) {
+                        return true
+            }
+        }
+        
+        return false
+    }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         var touch = touches.anyObject() as UITouch
         
         let location = touch.locationInView(self.view)
+        
+        if isP1turn.boolValue {
+            if (p1markers != 0){
+                marker = p1
+                markers = p1markers
+            } else {
+                marker = p1OnBoard
+                markers = p1markers2
+            }
+        } else {
+            if (p2markers != 0){
+                marker = p2
+                markers = p2markers
+            } else {
+                marker = p2OnBoard
+                markers = p2markers2
+            }
+        }
+        
         for var i = 0 ; i < markers ; ++i {
             if touch.view == marker[i] {
                 marker[i].center = location
@@ -238,6 +313,24 @@ class ViewController: UIViewController {
         var touch = touches.anyObject() as UITouch
         
         var closest = 0
+        
+        if isP1turn.boolValue {
+            if (p1markers != 0){
+                marker = p1
+                markers = p1markers
+            } else {
+                marker = p1OnBoard
+                markers = p1markers2
+            }
+        } else {
+            if (p2markers != 0){
+                marker = p2
+                markers = p2markers
+            } else {
+                marker = p2OnBoard
+                markers = p2markers2
+            }
+        }
         
         if which >= 0 {
             if ((marker[which].center.x > CGFloat(leftX)) &&
@@ -256,25 +349,42 @@ class ViewController: UIViewController {
                         if isP1turn.boolValue {
                             state[closest] = State.p1occ.rawValue
                             if checkIfMill(State.p1occ.rawValue, pos: state, oldpos: oldState){
-                                
+                                println("MILL!")
                             }
+                            
+                            p1OnBoard.append(marker[which])
+                            p1.removeAtIndex(which)
+                            
+                            p1markers = p1markers - 1
+                            p1markers2 = p1markers2 + 1
+                            
                             isP1turn = false
                             infoLabel.text = "Player 2's turn"
                         } else {
                             state[closest] = State.p2occ.rawValue
                             if checkIfMill(State.p2occ.rawValue, pos: state, oldpos: oldState){
-                                
+                                println("MILL!")
                             }
+                            
+                            p2OnBoard.append(marker[which])
+                            p2.removeAtIndex(which)
+                            
+                            p2markers = p2markers - 1
+                            p2markers2 = p2markers2 + 1
+                            
                             isP1turn = true
                             infoLabel.text = "Player 1's turn"
                         }
                         
                         marker[which].center = CGPointMake(cellX[closest], cellY[closest])
                         
+                        
                     } else {
                         marker[which].center = CGPointMake(whichX, whichY)
                     }
                     
+                    
+                    println("p1: \(p1markers) p1-2: \(p1markers2) p2: \(p2markers) p2-2: \(p2markers2)")
                     println("\(marker[which].center)")
                     println("Places \(which) on square \(closest)")
             }
@@ -304,8 +414,6 @@ class ViewController: UIViewController {
                 closest = i
             }
         }
-        
-        
         
         return closest
     }
