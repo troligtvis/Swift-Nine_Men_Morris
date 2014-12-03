@@ -45,14 +45,13 @@ class ViewController: UIViewController {
     
     var rules: Rules! = Rules()
     var isRemove: Bool!
+    var isGameOver: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        
+
         initBoard()
-        
         initPlayer("green", m: markers)
         initPlayer("red", m: markers)
     }// viewDidLoad
@@ -122,7 +121,7 @@ class ViewController: UIViewController {
     
     func setInfoLabel(s: String){
         infoLabel.text = s
-    }
+    }// setInfoLabel
     
     @IBAction func backBtn(sender: AnyObject) {
         var titleOnAlert = ""
@@ -130,13 +129,49 @@ class ViewController: UIViewController {
         
         let alertController = UIAlertController(title: titleOnAlert, message: messageOnAlert, preferredStyle: .Alert)
         
+        let quitAction = UIAlertAction(title: "Quit", style: .Default) { (action) in
+            // Handle save & quit
+            println(action)
+            
+            self.performSegueWithIdentifier("toMainFromGame", sender: nil)
+        }
+        alertController.addAction(quitAction)
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
             // Do nothing
             println(action)
         }
         alertController.addAction(cancelAction)
+    
+        let saveAndQuitAction = UIAlertAction(title: "Save & Quit", style: .Destructive) { (action) in
+            // Handle save & quit
+            println(action)
+            
+            self.performSegueWithIdentifier("toMainFromGame", sender: nil)
+        }
+        alertController.addAction(saveAndQuitAction)
         
-        let destroyAction = UIAlertAction(title: "Save & Quit", style: .Destructive) { (action) in
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+    }// backBtn
+    
+    func gameCameToAnEnd(winner: String){
+        
+        
+        var titleOnAlert = "Game Over"
+        var messageOnAlert = "\(winner) won!"
+        
+        let alertController = UIAlertController(title: titleOnAlert, message: messageOnAlert, preferredStyle: .Alert)
+        
+        /*
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            // Do nothing
+            println(action)
+        }
+        alertController.addAction(cancelAction)
+        */
+        
+        let destroyAction = UIAlertAction(title: "Quit", style: .Destructive) { (action) in
             // Handle save & quit
             println(action)
             
@@ -145,8 +180,9 @@ class ViewController: UIViewController {
         alertController.addAction(destroyAction)
         
         self.presentViewController(alertController, animated: true, completion: nil)
+
         
-    }// backBtn
+    }// gameCameToAnEnd
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         var touch = touches.anyObject() as UITouch
@@ -156,8 +192,14 @@ class ViewController: UIViewController {
             if !isRemove {
                 which = m.center
             } else {
-                if m.imageName == waiting {
+                if ((m.imageName == waiting) && (m.removeAble)) {
                     m.removeFromSuperview()
+                    
+                    if (waiting == "green"){
+                        player1.score = player1.score - 1
+                    } else {
+                        player2.score = player2.score - 1
+                    }
                     
                     board.tiles[m.newPos].tileState = State.empty
                     
@@ -168,6 +210,10 @@ class ViewController: UIViewController {
                     setInfoLabel("\(turn)s turn")
                     
                     isRemove = false
+                    
+                    if player1.score == 2 || player2.score == 2{
+                        gameCameToAnEnd(t)
+                    }
                 }
             }
         }
@@ -196,30 +242,22 @@ class ViewController: UIViewController {
                 (m.center.y < CGFloat(topY) + 7.5 * CGFloat(tileHeight))) {
                     if m.moveAble.boolValue{
                         closest = findClosest(m.center)
-                        println("Innan checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
-                        
+                       
                         if rules.checkIfOk(closest){
                             println("\((m.newPos == -1 && board.tiles[closest].tileState == State.empty))")
                             if (m.newPos == -1 && board.tiles[closest].tileState == State.empty) {
                                 m.newPos = closest
-                                
-                                println("Inne")
                             }
-                            
                             
                             if rules.checkFly(m.newPos, to: closest , s: board.tiles[closest].tileState){
                                 
-                                //if (m.newPos != closest) || (m.oldPos == -1){
-                                    
                                     board.tiles[m.newPos].tileState = State.empty
                                     
                                     m.newPos = closest
                                     m.oldPos = 1
                                     m.center = CGPointMake(tileX[closest], tileY[closest])
                                     
-                                    
-                                    
-                                    if m.imageName == turn{
+                                    if "green" == turn{
                                         board.tiles[closest].tileState = State.green
                                     } else {
                                         board.tiles[closest].tileState = State.red
@@ -239,6 +277,7 @@ class ViewController: UIViewController {
                                     if totalMarkers > 0{
                                         totalMarkers = totalMarkers - 1
                                         m.moveAble = false
+                                        m.removeAble = true
                                         if totalMarkers == 0{
                                             for var i = 0; i < markers; ++i {
                                                 player1.pieces[i].moveAble = true
@@ -246,20 +285,15 @@ class ViewController: UIViewController {
                                             }
                                         }
                                     }
-                                    
-                                    
-                                    println("Efter checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
                                 } else {
-                                    println("INTE  checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
-                                    
                                     m.center = which
                                 }
-                                //m.center = which
-                           // }
                         } else {
                             m.center = which
                         }
                     }
+            } else {
+                m.center = which
             }
         }
     }// touchesEnded

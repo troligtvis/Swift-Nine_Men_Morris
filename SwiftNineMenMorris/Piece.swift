@@ -16,7 +16,7 @@ class Piece: UIImageView{
     var imageName: String!
     var id: Int!
     var moveAble: Bool!
-    //var image: UIImageView!
+    var removeAble: Bool!
     
     init(o: Int, p: Int, name: String, i: Int) {
         super.init()
@@ -26,7 +26,7 @@ class Piece: UIImageView{
         imageName = name
         id = i
         moveAble = true
-        //image = UIImageView(image: UIImage(named: name))
+        removeAble = false
         self.image = UIImage(named: name)
     }
     
@@ -37,4 +37,5 @@ class Piece: UIImageView{
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
+    
+}// Piece

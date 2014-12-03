@@ -27,4 +27,5 @@ class Tile{
         
         image = UIImageView(image: UIImage(named: name))
     }
-}
+    
+}// Tile

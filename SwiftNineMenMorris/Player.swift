@@ -13,23 +13,20 @@ class Player{
     
     var playerColor: String!
     var pieces: [Piece] = []
+    var score: Int!
     
     init(color: String, p: Int){
         playerColor = color
-        
         generatePieces(p)
-        
+        score = p
     }
     
     func generatePieces(p: Int){
         for var i = 0; i < p; ++i {
             pieces.append(Piece(o: -1, p: -1, name: playerColor, i: i))
-            //pieces[i].image.userInteractionEnabled = true
-            //pieces[i].image.multipleTouchEnabled = true
-            
             pieces[i].multipleTouchEnabled = true
             pieces[i].userInteractionEnabled = true
         }
-    }
+    }// generatePieces
     
-}
+}// Player

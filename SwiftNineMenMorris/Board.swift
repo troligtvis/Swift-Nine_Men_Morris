@@ -19,4 +19,5 @@ class Board {
             tiles.append(Tile(name: "piece\(i).png", state: State.empty))
         }
     }
-}
+    
+}// Board
