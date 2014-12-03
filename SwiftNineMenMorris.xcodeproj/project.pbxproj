@@ -118,6 +118,9 @@
 		2B5E92F51A27E45000BF285B /* piece8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E928F1A27E45000BF285B /* piece8@2x.png */; };
 		2B5E92F61A27E45000BF285B /* piece9.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E92901A27E45000BF285B /* piece9.png */; };
 		2B5E92F71A27E45000BF285B /* piece9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E92911A27E45000BF285B /* piece9@2x.png */; };
+		2B8B3AD61A2FB1E100761B10 /* TileEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B3AD51A2FB1E100761B10 /* TileEntity.swift */; };
+		2B8B3AD81A2FB60F00761B10 /* PieceEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B3AD71A2FB60F00761B10 /* PieceEntity.swift */; };
+		2B8B3ADA1A2FB61000761B10 /* Piece2Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B3AD91A2FB61000761B10 /* Piece2Entity.swift */; };
 		2B9355321A2CAAA6002DA2F3 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9355311A2CAAA6002DA2F3 /* Player.swift */; };
 		2B9355341A2CB007002DA2F3 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9355331A2CB007002DA2F3 /* Board.swift */; };
 		2B9355381A2CB754002DA2F3 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9355371A2CB754002DA2F3 /* Tile.swift */; };
@@ -260,6 +263,9 @@
 		2B5E928F1A27E45000BF285B /* piece8@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece8@2x.png"; sourceTree = "<group>"; };
 		2B5E92901A27E45000BF285B /* piece9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piece9.png; sourceTree = "<group>"; };
 		2B5E92911A27E45000BF285B /* piece9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piece9@2x.png"; sourceTree = "<group>"; };
+		2B8B3AD51A2FB1E100761B10 /* TileEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileEntity.swift; sourceTree = "<group>"; };
+		2B8B3AD71A2FB60F00761B10 /* PieceEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceEntity.swift; sourceTree = "<group>"; };
+		2B8B3AD91A2FB61000761B10 /* Piece2Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece2Entity.swift; sourceTree = "<group>"; };
 		2B9355311A2CAAA6002DA2F3 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		2B9355331A2CB007002DA2F3 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		2B9355371A2CB754002DA2F3 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
@@ -484,6 +490,9 @@
 			isa = PBXGroup;
 			children = (
 				2BAC9F961A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodeld */,
+				2B8B3AD91A2FB61000761B10 /* Piece2Entity.swift */,
+				2B8B3AD71A2FB60F00761B10 /* PieceEntity.swift */,
+				2B8B3AD51A2FB1E100761B10 /* TileEntity.swift */,
 				2BF7CE4F1A2F720A001ED2FC /* Saved.swift */,
 				2BF7CE4D1A2F720A001ED2FC /* Setting.swift */,
 				2BAC9F9E1A2BC47C00E181D1 /* CoreDataStack.swift */,
@@ -707,6 +716,7 @@
 			files = (
 				2BAC9FA61A2BCBA200E181D1 /* SaveDataHandler.swift in Sources */,
 				2BAC9F981A2BB6D500E181D1 /* NineMenMorrisDB.xcdatamodeld in Sources */,
+				2B8B3ADA1A2FB61000761B10 /* Piece2Entity.swift in Sources */,
 				2B51F82A1A2DB4CC00268ACD /* Piece.swift in Sources */,
 				2B5E92011A2789A900BF285B /* ViewController.swift in Sources */,
 				2B9355381A2CB754002DA2F3 /* Tile.swift in Sources */,
@@ -715,10 +725,12 @@
 				2B9355321A2CAAA6002DA2F3 /* Player.swift in Sources */,
 				2BF7CE4E1A2F720A001ED2FC /* Setting.swift in Sources */,
 				2B51F82E1A2E738300268ACD /* Rules.swift in Sources */,
+				2B8B3AD61A2FB1E100761B10 /* TileEntity.swift in Sources */,
 				2BF7CE501A2F720A001ED2FC /* Saved.swift in Sources */,
 				2B9355341A2CB007002DA2F3 /* Board.swift in Sources */,
 				2BAC9FA21A2BCAD900E181D1 /* Async.swift in Sources */,
 				2BAC9F921A2B69FD00E181D1 /* SettingsViewController.swift in Sources */,
+				2B8B3AD81A2FB60F00761B10 /* PieceEntity.swift in Sources */,
 				2BAC9F951A2B6A7400E181D1 /* MenuViewController.swift in Sources */,
 				2BAC9F9F1A2BC47C00E181D1 /* CoreDataStack.swift in Sources */,
 				2BAC9FA41A2BCB8D00E181D1 /* SettingsDataHandler.swift in Sources */,

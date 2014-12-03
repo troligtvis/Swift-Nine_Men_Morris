@@ -27,8 +27,7 @@ class Tile: NSObject, NSCoding{
         
         image = UIImageView(image: UIImage(named: name))
     }
-    
-    
+
     required init(coder aDecoder: NSCoder) {
         self.tileState = State(rawValue: (aDecoder.decodeObjectForKey("tileState") as Int))
         self.imageName = aDecoder.decodeObjectForKey("imageName") as String

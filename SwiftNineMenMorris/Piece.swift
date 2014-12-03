@@ -17,6 +17,7 @@ class Piece: UIImageView{
     var id: Int!
     var moveAble: Bool!
     var removeAble: Bool!
+    var isRemoved: Bool!
     
     init(o: Int, p: Int, name: String, i: Int) {
         super.init()
@@ -27,6 +28,7 @@ class Piece: UIImageView{
         id = i
         moveAble = true
         removeAble = false
+        isRemoved = false
         self.image = UIImage(named: name)
     }
     
@@ -49,6 +51,7 @@ class Piece: UIImageView{
         self.id = aDecoder.decodeIntegerForKey("id")
         self.moveAble = aDecoder.decodeBoolForKey("moveAble")
         self.removeAble = aDecoder.decodeBoolForKey("removeAble")
+        self.isRemoved = aDecoder.decodeBoolForKey("isRemoved")
         //fatalError("init(coder:) has not been implemented")
     }
     
@@ -59,6 +62,7 @@ class Piece: UIImageView{
         aCoder.encodeInteger( self.id, forKey: "id")
         aCoder.encodeBool( self.moveAble, forKey: "moveAble")
         aCoder.encodeBool( self.removeAble, forKey: "removeAble")
+        aCoder.encodeBool(self.isRemoved, forKey: "isRemoved")
     }
 
     

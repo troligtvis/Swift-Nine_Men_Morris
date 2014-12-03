@@ -22,6 +22,9 @@ class MenuViewController: UIViewController {
     
     var playerArray: [Player]! = []
     var boardArray: [Board]! = []
+    var tileArray: [Tile]! = []
+    var piece1Array: [Piece]! = []
+    var piece2Array: [Piece]! = []
     
     var isSave: Bool!
 
@@ -64,60 +67,24 @@ class MenuViewController: UIViewController {
         
         self.presentViewController(alertController, animated: true, completion: nil)
     }
-    
-    /*
-    func createPlayerBinary(p: Player){
-        var pb = PlayerBinary()
-        pb.addPlayer(p)
-        var data: NSData = NSKeyedArchiver.archivedDataWithRootObject(pb)
-        playerBinary.append(data)
-    }
-    
-    func createBoardBinary(b: Board){
-        var bb = BoardBinary()
-        bb.addBoard(b)
-        var data: NSData = NSKeyedArchiver.archivedDataWithRootObject(bb)
-        boardBinary.append(data)
-    }
-    
-    func createPlayerFromBinary(pb: NSData){
-        var z = Player(coder: NSCoder())
-        
-        var p: Player = NSKeyedUnarchiver.unarchiveObjectWithData(pb) as Player
-        playerArray.append(p)
-    }
-    
-    func createBoardFromBinary(bb: NSData){
-        var b: Board = NSKeyedUnarchiver.unarchiveObjectWithData(bb) as Board
-        boardArray.append(b)
-    } */
-    
+
     func saveData(){
-        //createPlayerBinary(playerArray[0])
-        //createPlayerBinary(playerArray[1])
-        //createBoardBinary(boardArray[0])
-        
- 
-        //println("pb:\(playerBinary) bb:\(boardBinary)")
-        //println("c:\(coreDataStack)")
-        
-        //saveDataHandler.saveData("Saved", playerBinary: playerBinary, boardBinary: boardBinary, coreDataStack: coreDataStack)
         saveDataHandler.saveData("Saved", player: playerArray, board: boardArray, coreDataStack: coreDataStack)
+        saveDataHandler.savePiecesAndTiles("PieceEntity", p2: "Piece2Entity", tile: "TileEntity", pieces1: piece1Array, pieces2: piece2Array, tiles: tileArray, coreDataStack: coreDataStack)
     }
     
     func loadData(){
         var returnObjects = saveDataHandler.loadData("Saved", coreDataStack: coreDataStack)
         
         if !returnObjects.wasEmpty{
-            //playerBinary = returnObjects.pb
-            //boardBinary = returnObjects.bb
-            //println("HIT")
             playerArray = returnObjects.pb
             boardArray = returnObjects.bb
+
+            var returnObjects2 = saveDataHandler.loadTilesAndPieces("PieceEntity", player2: "Piece2Entity", tile: "TileEntity", coreDataStack: coreDataStack)
+            piece1Array = returnObjects2.p1
+            piece2Array = returnObjects2.p2
+            tileArray = returnObjects2.t
             
-            //createPlayerFromBinary(playerBinary[0])
-            //createPlayerFromBinary(playerBinary[1])
-            //createBoardFromBinary(boardBinary[0])
             isFromLoad = true
         }
         
@@ -146,11 +113,14 @@ class MenuViewController: UIViewController {
                     isFromLoad = false
                     viewController.boardArray = boardArray
                     viewController.playerArray = playerArray
+                
+                    viewController.piece1Array = piece1Array
+                    viewController.piece2Array = piece2Array
+                    viewController.tileArray = tileArray
                 }
             }
         }
     }
-    
     
     @IBAction func unwindToThisViewController(segue: UIStoryboardSegue) {
         if let settingsViewController = segue.sourceViewController as? SettingsViewController {

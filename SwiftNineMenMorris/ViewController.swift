@@ -26,6 +26,9 @@ class ViewController: UIViewController {
     
     var playerArray: [Player]! = []
     var boardArray: [Board]! = []
+    var piece1Array: [Piece]! = []
+    var piece2Array: [Piece]! = []
+    var tileArray: [Tile]! = []
     
     // Player 1
     var player1: Player!
@@ -48,7 +51,7 @@ class ViewController: UIViewController {
     
     
     var rules: Rules! = Rules()
-    var isRemove: Bool!
+    var isRemove: Bool! = false
     var isGameOver: Bool!
     
     var isSave: Bool!
@@ -57,20 +60,27 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
+        tileWidth = self.view.frame.width/9
+        tileHeight = self.view.frame.width/9
+        leftX = self.view.frame.width/9
+        topY = (tileWidth * 8) / 2
+        
         if isFromLoad.boolValue {
             board = boardArray[0]
             player1 = playerArray[0]
             player2 = playerArray[1]
             
-            println("\(player1.pieces.count)")
-            println("\(player1.playerColor)")
+            initBoardFromLoad()
             
             if player1.turn.boolValue {
                 turn = player1.playerColor
-                
+                waiting = player2.playerColor
             } else {
                 turn = player2.playerColor
+                waiting = player1.playerColor
             }
+            
+            
             
             infoLabel.text = "\(turn)s turn!"
             
@@ -81,19 +91,71 @@ class ViewController: UIViewController {
         }
     }// viewDidLoad
     
-    func initBoard(){
-        tileWidth = self.view.frame.width/9
-        tileHeight = self.view.frame.width/9
-        leftX = self.view.frame.width/9
-        topY = (tileWidth * 8) / 2
+    func initBoardFromLoad(){
         
-        board = Board(tileCount: tileCount, tileSize: 57)
+        board.tiles = tileArray
+        player1.pieces = piece1Array
+        player2.pieces = piece2Array
+        
+        tileX = board.tileX
+        tileY = board.tileY
+        
+        totalMarkers = board.totalMarkers
+        
+        println("tile:\(tileCount) board:\(board.tiles.count)")
+        
+        for var i = 0; i < tileCount; ++i{
+            board.tiles[i].image = UIImageView(image: UIImage(named: "piece\(i).png"))
+            board.tiles[i].image.frame = CGRect(x: board.tX[i], y: board.tY[i], width: tileWidth, height: tileHeight)
+            
+            self.view.addSubview(board.tiles[i].image)
+        }
+        
+        for var i = 0; i < player1.pieces.count; ++i{
+            player1.pieces[i].image = UIImage(named: "green")
+            if !player1.pieces[i].isRemoved.boolValue{
+                println("pieces1: \(i) pos: \(player1.pieces[i].newPos) re:\(player1.pieces[i].isRemoved)")
+                println("mov: \(player1.pieces[i].moveAble)")
+                
+                player1.pieces[i].frame = CGRectMake(tileX[player1.pieces[i].newPos], tileY[player1.pieces[i].newPos], tileWidth , tileHeight)
+                //player1.pieces[i].center = CGPointMake(CGFloat(player1.pieces[i].newPos), CGFloat(player1.pieces[i].newPos))
+                self.view.addSubview(player1.pieces[i])
+            }
+        }
+    
+        for var i = 0; i < player2.pieces.count; ++i{
+            player2.pieces[i].image = UIImage(named: "red")
+            if !player2.pieces[i].isRemoved.boolValue{
+                println("pieces2: \(i) pos: \(player2.pieces[i].newPos) re:\(player2.pieces[i].isRemoved)")
+                println("mov: \(player2.pieces[i].moveAble)")
+                
+                player2.pieces[i].frame = CGRectMake(tileX[player2.pieces[i].newPos], tileY[player2.pieces[i].newPos], tileWidth , tileHeight)
+                self.view.addSubview(player2.pieces[i])
+            }
+
+        }
+    }
+    
+    func initBoard(){
+        
+        board = Board(tileCount: tileCount, tileSize: Float(tileWidth))
         var col = 0, row = 0
         for var i = 0; i < tileCount; ++i{
+            
+            var x = (leftX + (tileWidth * CGFloat(col)))
+            var y = (topY + (tileHeight * CGFloat(row)))
+            var height = CGFloat(tileWidth)
+            var width = CGFloat(tileHeight)
+            
             var t = board.tiles[i].image
-            t.frame = CGRectMake((leftX + (tileWidth * CGFloat(col))), (topY + (tileHeight * CGFloat(row))), CGFloat(tileWidth), CGFloat(tileHeight))
+            
+            t.frame = CGRectMake(x, y, height, width)
+            //println("\(t.frame)")
             tileX.append(t.center.x)
             tileY.append(t.center.y)
+            
+            board.tX.append(x)
+            board.tY.append(y)
             
             self.view.addSubview(t)
             
@@ -104,10 +166,16 @@ class ViewController: UIViewController {
             }
         }
         
+        board.tileX = tileX
+        board.tileY = tileY
+        
         turn = "green"
         waiting = "red"
         isRemove = false
         totalMarkers = 2 * markers
+    
+        board.totalMarkers = totalMarkers
+        board.isRemove = isRemove
         
         setInfoLabel("\(turn)s turn")
         
@@ -193,19 +261,40 @@ class ViewController: UIViewController {
             println("Sending back: \(playerArray)")
             println("Sending back -> player1: \(player1.score) player2: \(player2.score)")
             
-            if turn == player1.playerColor {
-                player1.turn = true
-            } else {
-                player2.turn = true
+            if isSave.boolValue {
+                
+                if turn == player1.playerColor {
+                    player1.turn = true
+                    player2.turn = false
+                } else {
+                    player1.turn = false
+                    player2.turn = true
+                }
+                
+                playerArray.append(player1)
+                playerArray.append(player2)
+                boardArray.append(board)
+                
+                for var i = 0; i < tileCount; ++i {
+                    tileArray.append(board.tiles[i])
+                }
+                
+                for var i = 0; i < player1.pieces.count; ++i{
+                    piece1Array.append(player1.pieces[i])
+                }
+                
+                for var i = 0; i < player2.pieces.count; ++i {
+                    piece2Array.append(player2.pieces[i])
+                }
+                
+                //mv.isSave = isSave
+                mv.boardArray = boardArray
+                mv.playerArray = playerArray
+                mv.tileArray = tileArray
+                mv.piece1Array = piece1Array
+                mv.piece2Array = piece2Array
             }
-            
-            playerArray.append(player1)
-            playerArray.append(player2)
-            boardArray.append(board)
-            
             mv.isSave = isSave
-            mv.boardArray = boardArray
-            mv.playerArray = playerArray
         }
     }
     
@@ -240,6 +329,7 @@ class ViewController: UIViewController {
             } else {
                 if ((m.imageName == waiting) && (m.removeAble)) {
                     m.removeFromSuperview()
+                    m.isRemoved = true
                     
                     if (waiting == "green"){
                         player1.score = player1.score - 1
@@ -258,6 +348,7 @@ class ViewController: UIViewController {
                     isRemove = false
                     
                     if player1.score == 2 || player2.score == 2{
+                        isSave = false
                         gameCameToAnEnd(t)
                     }
                 }
@@ -343,7 +434,7 @@ class ViewController: UIViewController {
             }
         }
         
-        println("player1: \(player1.score) player2: \(player2.score)")
+        //println("player1: \(player1.score) player2: \(player2.score)")
     }// touchesEnded
     
     func findClosest(p: CGPoint) -> Int{
@@ -372,6 +463,8 @@ class ViewController: UIViewController {
         
         return closest
     }// findClosest
+    
+    
     
 }// ViewController
 

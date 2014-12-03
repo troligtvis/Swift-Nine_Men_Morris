@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Piece2Entity" representedClassName="SwiftNineMenMorris.Piece2Entity" syncable="YES">
+        <attribute name="piece" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="PieceEntity" representedClassName="SwiftNineMenMorris.PieceEntity" syncable="YES">
+        <attribute name="piece" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
     <entity name="Saved" representedClassName="SwiftNineMenMorris.Saved" syncable="YES">
         <attribute name="board" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="player1" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -10,8 +16,14 @@
         <attribute name="isMusic" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="pieces" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="TileEntity" representedClassName="SwiftNineMenMorris.TileEntity" syncable="YES">
+        <attribute name="tile" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
     <elements>
+        <element name="PieceEntity" positionX="-45" positionY="27" width="128" height="58"/>
+        <element name="Piece2Entity" positionX="-36" positionY="36" width="128" height="58"/>
         <element name="Saved" positionX="-54" positionY="9" width="128" height="88"/>
         <element name="Setting" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="TileEntity" positionX="-54" positionY="18" width="128" height="58"/>
     </elements>
 </model>
