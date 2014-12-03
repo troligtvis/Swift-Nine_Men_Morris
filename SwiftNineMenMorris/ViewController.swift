@@ -62,11 +62,17 @@ class ViewController: UIViewController {
             player1 = playerArray[0]
             player2 = playerArray[1]
             
+            println("\(player1.pieces.count)")
+            println("\(player1.playerColor)")
+            
             if player1.turn.boolValue {
                 turn = player1.playerColor
+                
             } else {
                 turn = player2.playerColor
             }
+            
+            infoLabel.text = "\(turn)s turn!"
             
         } else {
             initBoard()
@@ -151,6 +157,7 @@ class ViewController: UIViewController {
         let quitAction = UIAlertAction(title: "Quit", style: .Default) { (action) in
             // Handle save & quit
             println(action)
+            self.isSave = false
             
             self.performSegueWithIdentifier("toMainFromGame", sender: nil)
         }

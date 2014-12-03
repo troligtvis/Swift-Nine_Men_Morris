@@ -32,6 +32,7 @@ class SaveDataHandler: NSObject{
     func saveData(name: String, player: [Player], board: [Board], coreDataStack: CoreDataStack){
         if checkIfDataExist(name, coreDataStack: coreDataStack){
             
+            /*
             let batchUpdate = NSBatchUpdateRequest(entityName: name)
             
             batchUpdate.propertiesToUpdate = ["player1" : player[0] as Player]
@@ -48,7 +49,26 @@ class SaveDataHandler: NSObject{
             } else {
                 println("Could not update \(batchError), \(batchError!.userInfo)")
             }
-        } else {
+            */
+            
+            let fetchRequest = NSFetchRequest(entityName: name)
+            var error: NSError? = nil
+            
+            let resultscount = coreDataStack.context.countForFetchRequest(fetchRequest, error: &error)
+            
+            if resultscount != 0 {
+                
+                var fetchError: NSError? = nil
+                let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
+                
+                for object in results!{
+                    let oldSave = object as Saved
+                    coreDataStack.context.deleteObject(oldSave)
+                }
+                
+                coreDataStack.saveContext()
+            }
+        }
             let savedEntity = NSEntityDescription.entityForName(name, inManagedObjectContext: coreDataStack.context)
             
             let saved = Saved(entity: savedEntity!, insertIntoManagedObjectContext: coreDataStack.context)
@@ -58,12 +78,11 @@ class SaveDataHandler: NSObject{
             saved.board = board[0] as Board
             
             coreDataStack.saveContext()
-        }
+        
     }
     
     //func loadData(name: String, coreDataStack: CoreDataStack) -> (pb: [NSData], bb: [NSData], wasEmpty: Bool){
     func loadData(name: String, coreDataStack: CoreDataStack) -> (pb: [Player], bb: [Board], wasEmpty: Bool){
-        var stemp: [Saved]! = []
         var bb: [Board]! = []
         var pb: [Player]! = []
         var wasEmpty: Bool = true
@@ -82,6 +101,8 @@ class SaveDataHandler: NSObject{
                 pb.append(t.player1 as Player)
                 pb.append(t.player2 as Player)
             }
+            
+            println("hit")
             
             wasEmpty = false
         }

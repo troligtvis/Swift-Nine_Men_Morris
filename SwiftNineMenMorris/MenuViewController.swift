@@ -32,7 +32,7 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func loadBtn(sender: AnyObject) {
-        self.loadData()
+        loadData()
 
         var titleOnAlert = "Load Game"
         var messageOnAlert = ""
@@ -57,7 +57,7 @@ class MenuViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
             // Do nothing
-            println(action)
+            self.isFromLoad = false
         }
         alertController.addAction(cancelAction)
         
@@ -111,7 +111,6 @@ class MenuViewController: UIViewController {
         if !returnObjects.wasEmpty{
             //playerBinary = returnObjects.pb
             //boardBinary = returnObjects.bb
-        
             //println("HIT")
             playerArray = returnObjects.pb
             boardArray = returnObjects.bb
