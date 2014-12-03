@@ -43,6 +43,9 @@
                                 <state key="normal" title="Load Game">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="loadBtn:" destination="JSO-Vq-j0d" eventType="touchUpInside" id="5yb-Sk-LDb"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUj-Zd-xbo">
                                 <rect key="frame" x="16" y="387" width="568" height="30"/>

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Rules{
+class Rules: NSObject{
 
     func checkIfOk(s: Int) -> Bool{
             if s == 0 || s == 3 || s == 6 {

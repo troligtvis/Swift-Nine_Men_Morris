@@ -24,6 +24,9 @@ class ViewController: UIViewController {
     var topY: CGFloat!
     var leftX: CGFloat!
     
+    var playerArray: [Player]! = []
+    var boardArray: [Board]! = []
+    
     // Player 1
     var player1: Player!
     
@@ -41,19 +44,35 @@ class ViewController: UIViewController {
     var markers: Int!
     var isPlayMusic: Bool!
     var isFly: Bool!
+    var isFromLoad: Bool!
     
     
     var rules: Rules! = Rules()
     var isRemove: Bool!
     var isGameOver: Bool!
     
+    var isSave: Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        initBoard()
-        initPlayer("green", m: markers)
-        initPlayer("red", m: markers)
+        if isFromLoad.boolValue {
+            board = boardArray[0]
+            player1 = playerArray[0]
+            player2 = playerArray[1]
+            
+            if player1.turn.boolValue {
+                turn = player1.playerColor
+            } else {
+                turn = player2.playerColor
+            }
+            
+        } else {
+            initBoard()
+            initPlayer("green", m: markers)
+            initPlayer("red", m: markers)
+        }
     }// viewDidLoad
     
     func initBoard(){
@@ -145,7 +164,12 @@ class ViewController: UIViewController {
     
         let saveAndQuitAction = UIAlertAction(title: "Save & Quit", style: .Destructive) { (action) in
             // Handle save & quit
+            
+            //println("player1: \(player1.score) player2: \(player2.score)")
+            self.isSave = true
             println(action)
+            
+            
             
             self.performSegueWithIdentifier("toMainFromGame", sender: nil)
         }
@@ -155,6 +179,29 @@ class ViewController: UIViewController {
         
     }// backBtn
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toMainFromGame" {
+            var mv = segue.destinationViewController as MenuViewController
+            
+            println("Sending back: \(playerArray)")
+            println("Sending back -> player1: \(player1.score) player2: \(player2.score)")
+            
+            if turn == player1.playerColor {
+                player1.turn = true
+            } else {
+                player2.turn = true
+            }
+            
+            playerArray.append(player1)
+            playerArray.append(player2)
+            boardArray.append(board)
+            
+            mv.isSave = isSave
+            mv.boardArray = boardArray
+            mv.playerArray = playerArray
+        }
+    }
+    
     func gameCameToAnEnd(winner: String){
         
         
@@ -162,14 +209,6 @@ class ViewController: UIViewController {
         var messageOnAlert = "\(winner) won!"
         
         let alertController = UIAlertController(title: titleOnAlert, message: messageOnAlert, preferredStyle: .Alert)
-        
-        /*
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-            // Do nothing
-            println(action)
-        }
-        alertController.addAction(cancelAction)
-        */
         
         let destroyAction = UIAlertAction(title: "Quit", style: .Destructive) { (action) in
             // Handle save & quit
@@ -296,6 +335,8 @@ class ViewController: UIViewController {
                 m.center = which
             }
         }
+        
+        println("player1: \(player1.score) player2: \(player2.score)")
     }// touchesEnded
     
     func findClosest(p: CGPoint) -> Int{

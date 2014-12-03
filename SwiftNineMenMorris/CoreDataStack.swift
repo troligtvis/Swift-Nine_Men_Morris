@@ -17,7 +17,7 @@ class CoreDataStack{
     
     init(){
         let bundle = NSBundle.mainBundle()
-        let modelURL = bundle.URLForResource("SwiftNineMenMorris", withExtension:"momd")
+        let modelURL = bundle.URLForResource("NineMenMorrisDB", withExtension:"momd")
         model = NSManagedObjectModel(contentsOfURL: modelURL!)!
         
         psc = NSPersistentStoreCoordinator(managedObjectModel:model)
@@ -26,7 +26,7 @@ class CoreDataStack{
         context.persistentStoreCoordinator = psc
         
         let documentsURL = applicationDocumentsDirectory()
-        let storeURL = documentsURL.URLByAppendingPathComponent("SwiftNineMenMorris")
+        let storeURL = documentsURL.URLByAppendingPathComponent("NineMenMorrisDB")
         
         let options = [NSMigratePersistentStoresAutomaticallyOption: true]
         

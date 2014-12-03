@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     // FIX THE CORE DATA
-    //lazy var coreDataStack = CoreDataStack()
+    lazy var coreDataStack = CoreDataStack()
     var saveDataHandler = SaveDataHandler()
     var settingsDataHandler = SettingsDataHandler()
 
@@ -23,7 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         let menuViewController = window!.rootViewController as MenuViewController
-     //   menuViewController.coreDataStack = coreDataStack
+
+        menuViewController.coreDataStack = coreDataStack
         menuViewController.saveDataHandler = saveDataHandler
         menuViewController.settingsDataHandler = settingsDataHandler
         

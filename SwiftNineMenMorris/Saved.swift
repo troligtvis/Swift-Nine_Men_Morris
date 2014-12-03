@@ -2,7 +2,7 @@
 //  Saved.swift
 //  SwiftNineMenMorris
 //
-//  Created by Kj Drougge on 2014-11-30.
+//  Created by Kj Drougge on 2014-12-03.
 //  Copyright (c) 2014 kj. All rights reserved.
 //
 
@@ -11,9 +11,8 @@ import CoreData
 
 class Saved: NSManagedObject {
 
-    @NSManaged var player1pieces: NSNumber
-    @NSManaged var player2pieces: NSNumber
-    @NSManaged var positionsStatus: NSData
-    @NSManaged var positions: NSData
+    @NSManaged var player1: AnyObject
+    @NSManaged var board: AnyObject
+    @NSManaged var player2: AnyObject
 
 }

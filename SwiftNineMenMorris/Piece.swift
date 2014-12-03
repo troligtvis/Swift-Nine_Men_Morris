@@ -34,8 +34,32 @@ class Piece: UIImageView{
         super.init(frame: frame)
     }
 
-    required init(coder aDecoder: NSCoder) {
+   /* required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }*/
+
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        //super.init()
+        
+        self.oldPos = aDecoder.decodeIntegerForKey("oldPos")
+        self.newPos = aDecoder.decodeIntegerForKey("newPos")
+        self.imageName = aDecoder.decodeObjectForKey("imageName") as String
+        self.id = aDecoder.decodeIntegerForKey("id")
+        self.moveAble = aDecoder.decodeBoolForKey("moveAble")
+        self.removeAble = aDecoder.decodeBoolForKey("removeAble")
+        //fatalError("init(coder:) has not been implemented")
     }
+    
+    override func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeInteger( self.oldPos, forKey: "oldPos")
+        aCoder.encodeInteger( self.newPos, forKey: "newPos")
+        aCoder.encodeObject( self.imageName, forKey: "imageName")
+        aCoder.encodeInteger( self.id, forKey: "id")
+        aCoder.encodeBool( self.moveAble, forKey: "moveAble")
+        aCoder.encodeBool( self.removeAble, forKey: "removeAble")
+    }
+
     
 }// Piece

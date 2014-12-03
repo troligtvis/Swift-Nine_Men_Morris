@@ -18,12 +18,112 @@ class MenuViewController: UIViewController {
     var isFly: Bool = true
     var pieces: Int = 9
     var isPlayMusic: Bool = true
+    var isFromLoad: Bool = false
     
+    var playerArray: [Player]! = []
+    var boardArray: [Board]! = []
+    
+    var isSave: Bool!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+        //self.loadData()
     }
     
+    @IBAction func loadBtn(sender: AnyObject) {
+        self.loadData()
+
+        var titleOnAlert = "Load Game"
+        var messageOnAlert = ""
+        if !isFromLoad{
+            messageOnAlert = "No saved games found!"
+        }
+        
+        let alertController = UIAlertController(title: titleOnAlert, message: messageOnAlert, preferredStyle: .Alert)
+        
+        let loadAction = UIAlertAction(title: "Load", style: .Destructive) { (action) in
+            // Handle save & quit
+            println(action)
+            
+            
+            
+            self.performSegueWithIdentifier("gameSegue", sender: nil)
+        }
+        
+        if isFromLoad {
+            alertController.addAction(loadAction)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            // Do nothing
+            println(action)
+        }
+        alertController.addAction(cancelAction)
+        
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    /*
+    func createPlayerBinary(p: Player){
+        var pb = PlayerBinary()
+        pb.addPlayer(p)
+        var data: NSData = NSKeyedArchiver.archivedDataWithRootObject(pb)
+        playerBinary.append(data)
+    }
+    
+    func createBoardBinary(b: Board){
+        var bb = BoardBinary()
+        bb.addBoard(b)
+        var data: NSData = NSKeyedArchiver.archivedDataWithRootObject(bb)
+        boardBinary.append(data)
+    }
+    
+    func createPlayerFromBinary(pb: NSData){
+        var z = Player(coder: NSCoder())
+        
+        var p: Player = NSKeyedUnarchiver.unarchiveObjectWithData(pb) as Player
+        playerArray.append(p)
+    }
+    
+    func createBoardFromBinary(bb: NSData){
+        var b: Board = NSKeyedUnarchiver.unarchiveObjectWithData(bb) as Board
+        boardArray.append(b)
+    } */
+    
+    func saveData(){
+        //createPlayerBinary(playerArray[0])
+        //createPlayerBinary(playerArray[1])
+        //createBoardBinary(boardArray[0])
+        
+ 
+        //println("pb:\(playerBinary) bb:\(boardBinary)")
+        //println("c:\(coreDataStack)")
+        
+        //saveDataHandler.saveData("Saved", playerBinary: playerBinary, boardBinary: boardBinary, coreDataStack: coreDataStack)
+        saveDataHandler.saveData("Saved", player: playerArray, board: boardArray, coreDataStack: coreDataStack)
+    }
+    
+    func loadData(){
+        var returnObjects = saveDataHandler.loadData("Saved", coreDataStack: coreDataStack)
+        
+        if !returnObjects.wasEmpty{
+            //playerBinary = returnObjects.pb
+            //boardBinary = returnObjects.bb
+        
+            //println("HIT")
+            playerArray = returnObjects.pb
+            boardArray = returnObjects.bb
+            
+            //createPlayerFromBinary(playerBinary[0])
+            //createPlayerFromBinary(playerBinary[1])
+            //createBoardFromBinary(boardBinary[0])
+            isFromLoad = true
+        }
+        
+        println("loadData: \(isFromLoad)")
+    }
 
     // Passing data to the ViewController
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -42,6 +142,11 @@ class MenuViewController: UIViewController {
                     viewController.markers = pieces
                     viewController.isPlayMusic = isPlayMusic
                     viewController.isFly = isFly
+                    
+                    viewController.isFromLoad = isFromLoad
+                    isFromLoad = false
+                    viewController.boardArray = boardArray
+                    viewController.playerArray = playerArray
                 }
             }
         }
@@ -93,6 +198,10 @@ class MenuViewController: UIViewController {
         
         if let viewController = segue.sourceViewController as? ViewController {
             println("Coming from game")
+            
+            if isSave.boolValue {
+                saveData()
+            }
         }
     }
 }
