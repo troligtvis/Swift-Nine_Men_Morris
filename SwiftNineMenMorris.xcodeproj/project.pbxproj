@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2B51F82A1A2DB4CC00268ACD /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B51F8291A2DB4CC00268ACD /* Piece.swift */; };
 		2B51F82C1A2E306F00268ACD /* Kladd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B51F82B1A2E306F00268ACD /* Kladd.swift */; };
+		2B51F82E1A2E738300268ACD /* Rules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B51F82D1A2E738300268ACD /* Rules.swift */; };
 		2B5E91FF1A2789A900BF285B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5E91FE1A2789A900BF285B /* AppDelegate.swift */; };
 		2B5E92011A2789A900BF285B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5E92001A2789A900BF285B /* ViewController.swift */; };
 		2B5E92061A2789A900BF285B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B5E92051A2789A900BF285B /* Images.xcassets */; };
@@ -146,6 +147,7 @@
 /* Begin PBXFileReference section */
 		2B51F8291A2DB4CC00268ACD /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
 		2B51F82B1A2E306F00268ACD /* Kladd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kladd.swift; sourceTree = "<group>"; };
+		2B51F82D1A2E738300268ACD /* Rules.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rules.swift; sourceTree = "<group>"; };
 		2B5E91F91A2789A900BF285B /* SwiftNineMenMorris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftNineMenMorris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5E91FD1A2789A900BF285B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B5E91FE1A2789A900BF285B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				2B9355331A2CB007002DA2F3 /* Board.swift */,
 				2B9355371A2CB754002DA2F3 /* Tile.swift */,
 				2B51F82B1A2E306F00268ACD /* Kladd.swift */,
+				2B51F82D1A2E738300268ACD /* Rules.swift */,
 			);
 			path = SwiftNineMenMorris;
 			sourceTree = "<group>";
@@ -711,6 +714,7 @@
 				2B51F82C1A2E306F00268ACD /* Kladd.swift in Sources */,
 				2B9355321A2CAAA6002DA2F3 /* Player.swift in Sources */,
 				2BAC9F9A1A2BC43500E181D1 /* Saved.swift in Sources */,
+				2B51F82E1A2E738300268ACD /* Rules.swift in Sources */,
 				2B9355341A2CB007002DA2F3 /* Board.swift in Sources */,
 				2BAC9FA21A2BCAD900E181D1 /* Async.swift in Sources */,
 				2BAC9F9C1A2BC43500E181D1 /* Setting.swift in Sources */,

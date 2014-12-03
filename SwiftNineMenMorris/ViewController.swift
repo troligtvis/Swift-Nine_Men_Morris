@@ -30,6 +30,9 @@ class ViewController: UIViewController {
     // Player 2
     var player2: Player!
     
+    
+    var which: CGPoint!
+    
     var turn: String!
     
     // Settings
@@ -37,9 +40,12 @@ class ViewController: UIViewController {
     var isPlayMusic: Bool!
     var isFly: Bool!
     
+    var rules: Rules! = Rules()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         
         initBoard()
         
@@ -68,6 +74,8 @@ class ViewController: UIViewController {
                 row += 1
                 col = 0
             }
+            
+            turn = "green"
         }
     }// initBoard
     
@@ -90,7 +98,7 @@ class ViewController: UIViewController {
                 p = player2.pieces[i]
                 p.frame = CGRectMake((tileWidth * 5 + (tileWidth * CGFloat(col))), tileY[tileCount-1] + ( tileHeight + (tileHeight * CGFloat(row))), tileWidth, tileHeight)
             }
-
+            
             col += 1
             if col > 2{
                 row += 1
@@ -129,18 +137,20 @@ class ViewController: UIViewController {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         var touch = touches.anyObject() as UITouch
         var point = touch.locationInView(self.view)
-
+        
         if let m = touch.view as? Piece{
-            
+            which = m.center
         }
     }// touchesBegan
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         var touch = touches.anyObject() as UITouch
         let location = touch.locationInView(self.view)
-
+        
         if let m = touch.view as? Piece{
-            m.center = location
+            if m.moveAble.boolValue && m.imageName == "green"{ // Change this to turn <-----
+                m.center = location
+            }
         }
     }// touchesMoved
     
@@ -154,10 +164,51 @@ class ViewController: UIViewController {
                 (m.center.x < CGFloat(leftX) + 7.5 * CGFloat(tileWidth)) &&
                 (m.center.y > CGFloat(topY)) &&
                 (m.center.y < CGFloat(topY) + 7.5 * CGFloat(tileHeight))) {
-                
-                 closest = findClosest(m.center)
-                 m.center = CGPointMake(tileX[closest], tileY[closest])
-            }
+                    if m.moveAble.boolValue{
+                        closest = findClosest(m.center)
+                        //println("Innan checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
+                        
+                        if rules.checkIfOk(closest){
+                            //println("\((m.newPos == -1 && board.tiles[closest].tileState == State.empty))")
+                            if (m.newPos == -1 && board.tiles[closest].tileState == State.empty) {
+                                m.newPos = closest
+                                m.oldPos = closest
+                                //println("Inne")
+                            }
+                            
+                            
+                            if rules.checkFly(m.oldPos, to: closest , s: board.tiles[closest].tileState){
+                                
+                                m.newPos = closest
+                                m.oldPos = m.newPos
+                                m.center = CGPointMake(tileX[closest], tileY[closest])
+                                
+                                m.moveAble = true
+                                
+                                if m.imageName == "green"{
+                                    board.tiles[closest].tileState = State.green
+                                } else {
+                                    board.tiles[closest].tileState = State.red
+                                }
+                                
+                                if m.oldPos >= 0{
+                                    board.tiles[m.oldPos].tileState = State.empty
+                                }
+                                
+                                //println("Efter checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
+                            } else {
+                                //println("INTE  checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
+                                
+                                m.center = which
+                            }
+                        } else {
+                            m.center = which
+                        }
+                        
+                      
+                        
+                    }
+                }
         }
     }// touchesEnded
     
@@ -187,6 +238,6 @@ class ViewController: UIViewController {
         
         return closest
     }// findClosest
-
-}
+    
+}// ViewController
 

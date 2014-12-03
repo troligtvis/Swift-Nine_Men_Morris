@@ -16,7 +16,7 @@ class Board {
     
     init(tileCount: Int, tileSize: Float){
         for var i = 0; i < tileCount; ++i {
-            tiles.append(Tile(name: "piece\(i).png"))
+            tiles.append(Tile(name: "piece\(i).png", state: State.empty))
         }
     }
 }

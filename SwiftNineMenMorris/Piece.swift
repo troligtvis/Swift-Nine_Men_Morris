@@ -15,6 +15,7 @@ class Piece: UIImageView{
     var newPos: Int!
     var imageName: String!
     var id: Int!
+    var moveAble: Bool!
     //var image: UIImageView!
     
     init(o: Int, p: Int, name: String, i: Int) {
@@ -24,6 +25,7 @@ class Piece: UIImageView{
         newPos = p
         imageName = name
         id = i
+        moveAble = true
         //image = UIImageView(image: UIImage(named: name))
         self.image = UIImage(named: name)
     }

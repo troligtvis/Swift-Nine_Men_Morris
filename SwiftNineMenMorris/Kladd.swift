@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-
+/*
 
 class Kladd: UIViewController {
     
@@ -696,4 +696,6 @@ class Kladd: UIViewController {
     }
 }
 
+
+*/
 

@@ -11,7 +11,7 @@ import UIKit
 
 
 enum State: Int {
-    case unknown = 0, p1occ, p2occ, empty
+    case unknown = 0, green, red, empty
 }
 
 
@@ -21,9 +21,9 @@ class Tile{
     var imageName: String!
     var image: UIImageView!
     
-    init(name: String) {
+    init(name: String, state: State) {
         imageName = name
-        tileState = State.empty
+        tileState = state
         
         image = UIImageView(image: UIImage(named: name))
     }
