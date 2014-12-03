@@ -137,6 +137,88 @@ class Rules{
         return false;
     }// checkFly
     
+    func checkIfMill(p: Int, r: State, s: [Tile]) -> Bool{
+        
+        if(p == 0 && ((s[3].tileState == r  && s[6].tileState == r) || (s[21].tileState == r && s[42].tileState == r))){
+            return true
+        }
+        if(p == 3 && ((s[0].tileState == r && s[6].tileState == r ) || (s[10].tileState == r && s[17].tileState == r))){
+            return true
+        }
+        if(p == 6 && ((s[0].tileState == r && s[3].tileState == r) || (s[27].tileState == r && s[48].tileState == r))){
+            return true
+        }
+        if(p == 8 && ((s[10].tileState == r && s[12].tileState == r) || (s[22].tileState == r && s[36].tileState == r))){
+            return true
+        }
+        if(p == 10 && ((s[3].tileState == r && s[17].tileState == r) || (s[8].tileState == r && s[12].tileState == r))){
+            return true
+        }
+        if(p == 12 && ((s[8].tileState == r && s[10].tileState == r) || (s[26].tileState == r && s[40].tileState == r))){
+            return true
+        }
+        if(p == 16 && ((s[17].tileState == r && s[18].tileState == r) || (s[23].tileState == r && s[30].tileState == r))){
+            return true
+        }
+        if(p == 17 && ((s[3].tileState == r && s[10].tileState == r) || (s[16].tileState == r && s[18].tileState == r))){
+            return true
+        }
+        if(p == 18 && ((s[25].tileState == r && s[32].tileState == r) || (s[16].tileState == r && s[17].tileState == r))){
+            return true
+        }
+        if(p == 21 && ((s[22].tileState == r && s[23].tileState == r) || (s[0].tileState == r && s[42].tileState == r))){
+            return true
+        }
+        if(p == 22 && ((s[21].tileState == r && s[23].tileState == r) || (s[8].tileState == r && s[36].tileState == r))){
+            return true
+        }
+        if(p == 23 && ((s[21].tileState == r && s[22].tileState == r) || (s[16].tileState == r && s[30].tileState == r))){
+            return true
+        }
+        if(p == 25 && ((s[26].tileState == r && s[27].tileState == r) || (s[18].tileState == r && s[32].tileState == r))){
+            return true
+        }
+        if(p == 26 && ((s[25].tileState == r && s[27].tileState == r) || (s[12].tileState == r && s[40].tileState == r))){
+            return true
+        }
+        if(p == 27 && ((s[25].tileState == r && s[26].tileState == r) || (s[6].tileState == r && s[48].tileState == r))){
+            return true
+        }
+        if(p == 30 && ((s[31].tileState == r && s[32].tileState == r) || (s[16].tileState == r && s[23].tileState == r))){
+            return true
+        }
+        if(p == 31 && ((s[30].tileState == r && s[32].tileState == r) || (s[38].tileState == r && s[45].tileState == r))){
+            return true
+        }
+        if(p == 32 && ((s[30].tileState == r && s[31].tileState == r) || (s[18].tileState == r && s[25].tileState == r))){
+            return true
+        }
+        if(p == 36 && ((s[8].tileState == r && s[22].tileState == r) || (s[38].tileState == r && s[40].tileState == r))){
+            return true
+        }
+        if(p == 38 && ((s[31].tileState == r && s[45].tileState == r) || (s[36].tileState == r && s[40].tileState == r))){
+            return true
+        }
+        if(p == 40 && ((s[12].tileState == r && s[26].tileState == r) || (s[36].tileState == r && s[38].tileState == r))){
+            return true
+        }
+        if(p == 42 && ((s[0].tileState == r && s[21].tileState == r) || (s[45].tileState == r && s[48].tileState == r))){
+            return true
+        }
+        if(p == 45 && ((s[31].tileState == r && s[38].tileState == r) || (s[42].tileState == r && s[48].tileState == r))){
+            return true
+        }
+        if(p == 48 && ((s[6].tileState == r && s[27].tileState == r) || (s[42].tileState == r && s[45].tileState == r))){
+            return true
+        }
+        
+        return false
+        
+        
+    }// checkIfMill
+    
+    
+    /*
     func checkIfMill(p: Int, pos: [Int], oldpos: [Int]) -> Bool{
         
         if(pos[0] == p && pos[3] == p && pos[6] == p ) != (oldpos[0] == p && oldpos[3] == p && oldpos[6] == p ){
@@ -173,7 +255,7 @@ class Rules{
         
         return false
     }// checkIfMiller
-
+*/
 
     
 }// Rules

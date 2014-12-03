@@ -30,17 +30,21 @@ class ViewController: UIViewController {
     // Player 2
     var player2: Player!
     
+    var totalMarkers: Int!
     
     var which: CGPoint!
     
     var turn: String!
+    var waiting: String!
     
     // Settings
     var markers: Int!
     var isPlayMusic: Bool!
     var isFly: Bool!
     
+    
     var rules: Rules! = Rules()
+    var isRemove: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,9 +78,15 @@ class ViewController: UIViewController {
                 row += 1
                 col = 0
             }
-            
-            turn = "green"
         }
+        
+        turn = "green"
+        waiting = "red"
+        isRemove = false
+        totalMarkers = 2 * markers
+        
+        setInfoLabel("\(turn)s turn")
+        
     }// initBoard
     
     func initPlayer(name: String, m: Int){
@@ -110,6 +120,10 @@ class ViewController: UIViewController {
         
     }// initPlayer
     
+    func setInfoLabel(s: String){
+        infoLabel.text = s
+    }
+    
     @IBAction func backBtn(sender: AnyObject) {
         var titleOnAlert = ""
         var messageOnAlert = "What to do?"
@@ -139,7 +153,23 @@ class ViewController: UIViewController {
         var point = touch.locationInView(self.view)
         
         if let m = touch.view as? Piece{
-            which = m.center
+            if !isRemove {
+                which = m.center
+            } else {
+                if m.imageName == waiting {
+                    m.removeFromSuperview()
+                    
+                    board.tiles[m.newPos].tileState = State.empty
+                    
+                    var t = turn
+                    turn = waiting
+                    waiting = t
+                    
+                    setInfoLabel("\(turn)s turn")
+                    
+                    isRemove = false
+                }
+            }
         }
     }// touchesBegan
     
@@ -148,7 +178,7 @@ class ViewController: UIViewController {
         let location = touch.locationInView(self.view)
         
         if let m = touch.view as? Piece{
-            if m.moveAble.boolValue && m.imageName == "green"{ // Change this to turn <-----
+            if m.moveAble.boolValue && m.imageName == turn { // Change this to turn <-----
                 m.center = location
             }
         }
@@ -166,49 +196,71 @@ class ViewController: UIViewController {
                 (m.center.y < CGFloat(topY) + 7.5 * CGFloat(tileHeight))) {
                     if m.moveAble.boolValue{
                         closest = findClosest(m.center)
-                        //println("Innan checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
+                        println("Innan checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
                         
                         if rules.checkIfOk(closest){
-                            //println("\((m.newPos == -1 && board.tiles[closest].tileState == State.empty))")
+                            println("\((m.newPos == -1 && board.tiles[closest].tileState == State.empty))")
                             if (m.newPos == -1 && board.tiles[closest].tileState == State.empty) {
                                 m.newPos = closest
-                                m.oldPos = closest
-                                //println("Inne")
+                                
+                                println("Inne")
                             }
                             
                             
-                            if rules.checkFly(m.oldPos, to: closest , s: board.tiles[closest].tileState){
+                            if rules.checkFly(m.newPos, to: closest , s: board.tiles[closest].tileState){
                                 
-                                m.newPos = closest
-                                m.oldPos = m.newPos
-                                m.center = CGPointMake(tileX[closest], tileY[closest])
-                                
-                                m.moveAble = true
-                                
-                                if m.imageName == "green"{
-                                    board.tiles[closest].tileState = State.green
+                                //if (m.newPos != closest) || (m.oldPos == -1){
+                                    
+                                    board.tiles[m.newPos].tileState = State.empty
+                                    
+                                    m.newPos = closest
+                                    m.oldPos = 1
+                                    m.center = CGPointMake(tileX[closest], tileY[closest])
+                                    
+                                    
+                                    
+                                    if m.imageName == turn{
+                                        board.tiles[closest].tileState = State.green
+                                    } else {
+                                        board.tiles[closest].tileState = State.red
+                                    }
+                                    
+                                    if rules.checkIfMill(m.newPos, r:board.tiles[closest].tileState , s: board.tiles){
+                                        setInfoLabel("\(turn) got MILLER!")
+                                        isRemove = true
+                                    } else {
+                                        var t = turn
+                                        turn = waiting
+                                        waiting = t
+                                        
+                                        setInfoLabel("\(turn)s turn")
+                                    }
+                                    
+                                    if totalMarkers > 0{
+                                        totalMarkers = totalMarkers - 1
+                                        m.moveAble = false
+                                        if totalMarkers == 0{
+                                            for var i = 0; i < markers; ++i {
+                                                player1.pieces[i].moveAble = true
+                                                player2.pieces[i].moveAble = true
+                                            }
+                                        }
+                                    }
+                                    
+                                    
+                                    println("Efter checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
                                 } else {
-                                    board.tiles[closest].tileState = State.red
+                                    println("INTE  checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
+                                    
+                                    m.center = which
                                 }
-                                
-                                if m.oldPos >= 0{
-                                    board.tiles[m.oldPos].tileState = State.empty
-                                }
-                                
-                                //println("Efter checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
-                            } else {
-                                //println("INTE  checkFly -> closest: \(closest) old: \(m.oldPos) new: \(m.newPos)")
-                                
-                                m.center = which
-                            }
+                                //m.center = which
+                           // }
                         } else {
                             m.center = which
                         }
-                        
-                      
-                        
                     }
-                }
+            }
         }
     }// touchesEnded
     
