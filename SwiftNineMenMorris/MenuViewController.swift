@@ -84,6 +84,13 @@ class MenuViewController: UIViewController {
         saveDataHandler.saveData("Saved", player: playerArray, board: boardArray, coreDataStack: coreDataStack)
         saveDataHandler.savePiecesAndTiles("PieceEntity", p2: "Piece2Entity", tile: "TileEntity", pieces1: piece1Array, pieces2: piece2Array, tiles: tileArray, coreDataStack: coreDataStack)
         
+        clearArrays()
+    }
+    
+    func clearArrays(){
+        piece1Array.removeAll(keepCapacity: false)
+        piece2Array.removeAll(keepCapacity: false)
+        tileArray.removeAll(keepCapacity: false)
         piece1Array = []
         piece2Array = []
         tileArray = []
@@ -96,6 +103,8 @@ class MenuViewController: UIViewController {
             playerArray = returnObjects.pb
             boardArray = returnObjects.bb
 
+            clearArrays()
+            
             var returnObjects2 = saveDataHandler.loadTilesAndPieces("PieceEntity", player2: "Piece2Entity", tile: "TileEntity", coreDataStack: coreDataStack)
             piece1Array = returnObjects2.p1
             piece2Array = returnObjects2.p2
@@ -190,6 +199,14 @@ class MenuViewController: UIViewController {
             println("Coming from game")
             
             if isSave.boolValue {
+                
+                var t1 = piece1Array
+                var t2 = piece2Array
+                var t3 = tileArray
+                clearArrays()
+                piece1Array = t1
+                piece2Array = t2
+                tileArray = t3
                 saveData()
             }
         }

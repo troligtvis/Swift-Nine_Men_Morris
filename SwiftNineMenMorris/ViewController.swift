@@ -91,9 +91,12 @@ class ViewController: UIViewController {
             
         } else {
             initBoard()
-            initPlayer("green", m: markers)
-            initPlayer("red", m: markers)
+            initPlayer("Green", m: markers)
+            initPlayer("Red", m: markers)
         }
+        
+        playMusic(isPlayMusic)
+        
     }// viewDidLoad
     
     func initBoardFromLoad(){
@@ -117,10 +120,10 @@ class ViewController: UIViewController {
             
             switch board.state[i]{
             case 1:
-                board.tiles[i].tileState = State.green
+                board.tiles[i].tileState = State.Green
                 break
             case 2:
-                board.tiles[i].tileState = State.red
+                board.tiles[i].tileState = State.Red
                 break
             case 3:
                 board.tiles[i].tileState = State.empty
@@ -132,15 +135,12 @@ class ViewController: UIViewController {
             
             board.tiles[i].image = UIImageView(image: UIImage(named: "piece\(i).png"))
             board.tiles[i].image.frame = CGRect(x: board.tX[i], y: board.tY[i], width: tileWidth, height: tileHeight)
-            if board.tiles[i].tileState.rawValue == 1{
-                println("-----: \(board.tiles[i].tileState.rawValue) pos: \(i)")
-            }
             
             self.view.addSubview(board.tiles[i].image)
         }
         
         for var i = 0; i < player1.pieces.count; ++i{
-            player1.pieces[i].image = UIImage(named: "green")
+            player1.pieces[i].image = UIImage(named: "Green")
             if !player1.pieces[i].isRemoved.boolValue{
                 println("pieces1: \(i) pos: \(player1.pieces[i].newPos) re:\(player1.pieces[i].isRemoved)")
                 println("mov: \(player1.pieces[i].moveAble)")
@@ -153,7 +153,7 @@ class ViewController: UIViewController {
         }
     
         for var i = 0; i < player2.pieces.count; ++i{
-            player2.pieces[i].image = UIImage(named: "red")
+            player2.pieces[i].image = UIImage(named: "Red")
             if !player2.pieces[i].isRemoved.boolValue{
                 println("pieces2: \(i) pos: \(player2.pieces[i].newPos) re:\(player2.pieces[i].isRemoved)")
                 println("mov: \(player2.pieces[i].moveAble)")
@@ -202,8 +202,8 @@ class ViewController: UIViewController {
         board.tileX = tileX
         board.tileY = tileY
         
-        turn = "green"
-        waiting = "red"
+        turn = "Green"
+        waiting = "Red"
         isRemove = false
         totalMarkers = 2 * markers
     
@@ -215,7 +215,7 @@ class ViewController: UIViewController {
     }// initBoard
     
     func initPlayer(name: String, m: Int){
-        if name == "green" {
+        if name == "Green" {
             player1 = Player(color: name, p: m)
         } else {
             player2 = Player(color: name, p: m)
@@ -225,7 +225,7 @@ class ViewController: UIViewController {
         for var i = 0; i < m; ++i {
             var p: UIImageView!
             
-            if name == "green" {
+            if name == "Green" {
                 p = player1.pieces[i]
                 p.frame = CGRectMake((leftX + (tileWidth * CGFloat(col))), tileY[tileCount-1] + ( tileHeight + (tileHeight * CGFloat(row))), tileWidth, tileHeight)
                 
@@ -257,7 +257,7 @@ class ViewController: UIViewController {
         
         let quitAction = UIAlertAction(title: "Quit", style: .Default) { (action) in
             // Handle save & quit
-            println(action)
+            //println(action)
             self.isSave = false
             
             self.performSegueWithIdentifier("toMainFromGame", sender: nil)
@@ -275,7 +275,7 @@ class ViewController: UIViewController {
             
             //println("player1: \(player1.score) player2: \(player2.score)")
             self.isSave = true
-            println(action)
+            //println(action)
             
             
             
@@ -306,13 +306,20 @@ class ViewController: UIViewController {
                 
                 board.totalMarkers = totalMarkers
                 for var i = 0; i < tileCount; ++i{
-                    println("state: \(board.tiles[i].tileState.rawValue)")
+                    //println("state: \(board.tiles[i].tileState.rawValue)")
                     board.state.append(CGFloat(board.tiles[i].tileState.rawValue))
                 }
                 
                 playerArray.append(player1)
                 playerArray.append(player2)
                 boardArray.append(board)
+                
+                tileArray.removeAll(keepCapacity: false)
+                tileArray = []
+                piece1Array.removeAll(keepCapacity: false)
+                piece1Array = []
+                piece2Array.removeAll(keepCapacity: false)
+                piece2Array = []
                 
                 for var i = 0; i < tileCount; ++i {
                     tileArray.append(board.tiles[i])
@@ -370,7 +377,7 @@ class ViewController: UIViewController {
                     m.removeFromSuperview()
                     m.isRemoved = true
                     
-                    if (waiting == "green"){
+                    if (waiting == "Green"){
                         player1.score = player1.score - 1
                     } else {
                         player2.score = player2.score - 1
@@ -428,19 +435,17 @@ class ViewController: UIViewController {
                             if rules.checkFly(m.newPos, to: closest , s: board.tiles[closest].tileState){
                                 
                                     board.tiles[m.newPos].tileState = State.empty
-                                    println("old tile: \(board.tiles[m.newPos].tileState.rawValue) pos:\(m.newPos)")
-                                    println("old2 tile: \(board.tiles[closest].tileState.rawValue) pos:\(closest)")
+                                
                                     m.newPos = closest
                                     m.oldPos = 1
                                     m.center = CGPointMake(tileX[closest], tileY[closest])
                                     
-                                    if "green" == turn{
-                                        board.tiles[closest].tileState = State.green
+                                    if "Green" == turn{
+                                        board.tiles[closest].tileState = State.Green
                                     } else {
-                                        board.tiles[closest].tileState = State.red
+                                        board.tiles[closest].tileState = State.Red
                                     }
                                 
-                                    println("new tile: \(board.tiles[closest].tileState.rawValue) pos: \(closest)")
                                 
                                     if rules.checkIfMill(m.newPos, r:board.tiles[closest].tileState , s: board.tiles){
                                         setInfoLabel("\(turn) got MILLER!")

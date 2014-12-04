@@ -11,7 +11,7 @@ import UIKit
 
 
 enum State: Int {
-    case unknown = 0, green, red, empty
+    case unknown = 0, Green, Red, empty
 }
 
 class Tile: NSObject, NSCoding{
