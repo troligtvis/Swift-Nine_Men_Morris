@@ -21,6 +21,12 @@ class Board: NSObject, NSCoding {
     var totalMarkers: Int!
     var isRemove: Bool!
     
+    var state: [CGFloat] = []
+    
+    var isFly: Bool!
+    var isPlayMusic: Bool!
+    var markers: Int!
+    
     init(tileCount: Int, tileSize: Float){
         super.init()
         
@@ -37,6 +43,12 @@ class Board: NSObject, NSCoding {
         self.tY = aDecoder.decodeObjectForKey("tY") as [CGFloat]
         self.totalMarkers = aDecoder.decodeIntegerForKey("totalMarkers")
         self.isRemove = aDecoder.decodeBoolForKey("isRemove")
+        
+        self.isFly = aDecoder.decodeBoolForKey("isFly")
+        self.isPlayMusic = aDecoder.decodeBoolForKey("isPlayMusic")
+        self.markers = aDecoder.decodeIntegerForKey("markers")
+        
+        self.state = aDecoder.decodeObjectForKey("state") as [CGFloat]
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
@@ -47,6 +59,12 @@ class Board: NSObject, NSCoding {
         aCoder.encodeObject(self.tY, forKey: "tY")
         aCoder.encodeInteger(self.totalMarkers, forKey: "totalMarkers")
         aCoder.encodeBool(self.isRemove, forKey: "isRemove")
+        
+        aCoder.encodeBool(self.isFly, forKey: "isFly")
+        aCoder.encodeBool(self.isPlayMusic, forKey: "isPlayMusic")
+        aCoder.encodeInteger(self.markers, forKey: "markers")
+        
+        aCoder.encodeObject(self.state, forKey: "state")
     }
     
 }// Board

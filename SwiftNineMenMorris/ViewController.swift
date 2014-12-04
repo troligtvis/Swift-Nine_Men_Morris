@@ -45,10 +45,12 @@ class ViewController: UIViewController {
     
     // Settings
     var markers: Int!
-    var isPlayMusic: Bool!
     var isFly: Bool!
     var isFromLoad: Bool!
     
+    // Audio
+    var audioPlayer: AVAudioPlayer!
+    var isPlayMusic: Bool!
     
     var rules: Rules! = Rules()
     var isRemove: Bool! = false
@@ -56,10 +58,13 @@ class ViewController: UIViewController {
     
     var isSave: Bool!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
+        
         tileWidth = self.view.frame.width/9
         tileHeight = self.view.frame.width/9
         leftX = self.view.frame.width/9
@@ -100,13 +105,36 @@ class ViewController: UIViewController {
         tileX = board.tileX
         tileY = board.tileY
         
+        isFly = board.isFly
+        isPlayMusic = board.isPlayMusic
+        markers = board.markers
+        
         totalMarkers = board.totalMarkers
         
         println("tile:\(tileCount) board:\(board.tiles.count)")
         
         for var i = 0; i < tileCount; ++i{
+            
+            switch board.state[i]{
+            case 1:
+                board.tiles[i].tileState = State.green
+                break
+            case 2:
+                board.tiles[i].tileState = State.red
+                break
+            case 3:
+                board.tiles[i].tileState = State.empty
+                break
+            default:
+                break
+            }
+            
+            
             board.tiles[i].image = UIImageView(image: UIImage(named: "piece\(i).png"))
             board.tiles[i].image.frame = CGRect(x: board.tX[i], y: board.tY[i], width: tileWidth, height: tileHeight)
+            if board.tiles[i].tileState.rawValue == 1{
+                println("-----: \(board.tiles[i].tileState.rawValue) pos: \(i)")
+            }
             
             self.view.addSubview(board.tiles[i].image)
         }
@@ -118,7 +146,8 @@ class ViewController: UIViewController {
                 println("mov: \(player1.pieces[i].moveAble)")
                 
                 player1.pieces[i].frame = CGRectMake(tileX[player1.pieces[i].newPos], tileY[player1.pieces[i].newPos], tileWidth , tileHeight)
-                //player1.pieces[i].center = CGPointMake(CGFloat(player1.pieces[i].newPos), CGFloat(player1.pieces[i].newPos))
+                player1.pieces[i].center = CGPointMake(tileX[player1.pieces[i].newPos], tileY[player1.pieces[i].newPos])
+                
                 self.view.addSubview(player1.pieces[i])
             }
         }
@@ -130,15 +159,19 @@ class ViewController: UIViewController {
                 println("mov: \(player2.pieces[i].moveAble)")
                 
                 player2.pieces[i].frame = CGRectMake(tileX[player2.pieces[i].newPos], tileY[player2.pieces[i].newPos], tileWidth , tileHeight)
+                player2.pieces[i].center = CGPointMake(tileX[player2.pieces[i].newPos], tileY[player2.pieces[i].newPos])
                 self.view.addSubview(player2.pieces[i])
             }
-
         }
     }
     
     func initBoard(){
         
         board = Board(tileCount: tileCount, tileSize: Float(tileWidth))
+        board.isFly = isFly
+        board.isPlayMusic = isPlayMusic
+        board.markers = markers
+        
         var col = 0, row = 0
         for var i = 0; i < tileCount; ++i{
             
@@ -174,7 +207,7 @@ class ViewController: UIViewController {
         isRemove = false
         totalMarkers = 2 * markers
     
-        board.totalMarkers = totalMarkers
+        
         board.isRemove = isRemove
         
         setInfoLabel("\(turn)s turn")
@@ -269,6 +302,12 @@ class ViewController: UIViewController {
                 } else {
                     player1.turn = false
                     player2.turn = true
+                }
+                
+                board.totalMarkers = totalMarkers
+                for var i = 0; i < tileCount; ++i{
+                    println("state: \(board.tiles[i].tileState.rawValue)")
+                    board.state.append(CGFloat(board.tiles[i].tileState.rawValue))
                 }
                 
                 playerArray.append(player1)
@@ -389,7 +428,8 @@ class ViewController: UIViewController {
                             if rules.checkFly(m.newPos, to: closest , s: board.tiles[closest].tileState){
                                 
                                     board.tiles[m.newPos].tileState = State.empty
-                                    
+                                    println("old tile: \(board.tiles[m.newPos].tileState.rawValue) pos:\(m.newPos)")
+                                    println("old2 tile: \(board.tiles[closest].tileState.rawValue) pos:\(closest)")
                                     m.newPos = closest
                                     m.oldPos = 1
                                     m.center = CGPointMake(tileX[closest], tileY[closest])
@@ -399,7 +439,9 @@ class ViewController: UIViewController {
                                     } else {
                                         board.tiles[closest].tileState = State.red
                                     }
-                                    
+                                
+                                    println("new tile: \(board.tiles[closest].tileState.rawValue) pos: \(closest)")
+                                
                                     if rules.checkIfMill(m.newPos, r:board.tiles[closest].tileState , s: board.tiles){
                                         setInfoLabel("\(turn) got MILLER!")
                                         isRemove = true
@@ -464,7 +506,31 @@ class ViewController: UIViewController {
         return closest
     }// findClosest
     
-    
+    func playMusic(isPlayMusic: Bool){
+        if isPlayMusic {
+            var audioPath = NSString(string: NSBundle.mainBundle().pathForResource("Battleblock", ofType: "mp3")!)
+            
+            println(audioPath)
+            
+            var error : NSError? = nil
+            self.audioPlayer = AVAudioPlayer(contentsOfURL: NSURL(string: audioPath), error: &error)
+            
+            if (self.audioPlayer == nil)
+            {
+                if let playerError = error as NSError!
+                {
+                    let des : String? = playerError.localizedDescription
+                    println("Error: \(des)")
+                }
+            }
+            else
+            {
+                self.audioPlayer.play()
+            }
+        } else {
+            println("No music mr boring")
+        }
+    }
     
 }// ViewController
 

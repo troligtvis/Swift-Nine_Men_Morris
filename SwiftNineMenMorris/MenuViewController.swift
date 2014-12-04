@@ -27,11 +27,25 @@ class MenuViewController: UIViewController {
     var piece2Array: [Piece]! = []
     
     var isSave: Bool!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        //self.loadData()
+   
+        /*
+        if(self.settingsDataHandler.isSettingsEmpty(self.coreDataStack) == true){
+            println("No DB found, using default values")
+            isFly = true
+            isPlayMusic = true
+            pieces = 9
+        }else{
+            var settings = self.settingsDataHandler.loadSettings(self.coreDataStack)
+            isFly = settings.p1
+            isPlayMusic = settings.p2
+            pieces = settings.p3
+            println("DB found, loading values")
+        }*/
+        
     }
     
     @IBAction func loadBtn(sender: AnyObject) {
@@ -48,8 +62,6 @@ class MenuViewController: UIViewController {
         let loadAction = UIAlertAction(title: "Load", style: .Destructive) { (action) in
             // Handle save & quit
             println(action)
-            
-            
             
             self.performSegueWithIdentifier("gameSegue", sender: nil)
         }
@@ -71,6 +83,10 @@ class MenuViewController: UIViewController {
     func saveData(){
         saveDataHandler.saveData("Saved", player: playerArray, board: boardArray, coreDataStack: coreDataStack)
         saveDataHandler.savePiecesAndTiles("PieceEntity", p2: "Piece2Entity", tile: "TileEntity", pieces1: piece1Array, pieces2: piece2Array, tiles: tileArray, coreDataStack: coreDataStack)
+        
+        piece1Array = []
+        piece2Array = []
+        tileArray = []
     }
     
     func loadData(){
@@ -158,9 +174,14 @@ class MenuViewController: UIViewController {
                     break;
             }
             
+            /*
             Async.background{
                 // Save settings.
-            } // Nothing to update...
+                println("isSettingsEmpty: \(self.settingsDataHandler.isSettingsEmpty(self.coreDataStack))")
+                println("SAVED-> isFly: \(self.isFly) isMusic: \(self.isPlayMusic) Pieces: \(self.pieces)")
+                self.settingsDataHandler.saveSettings(self.isFly.boolValue, isMusic: self.isPlayMusic.boolValue, pieces: self.pieces, coreDataStack: self.coreDataStack)
+                */
+            //} // Nothing to update...
             
             println("Pieces: \(pieces) Fly: \(isFly)")
         }
