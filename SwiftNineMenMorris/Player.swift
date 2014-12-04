@@ -16,6 +16,9 @@ class Player: NSObject, NSCoding{
     var score: Int!
     var turn: Bool!
     
+    var pieceNotOnBoardPosX: [CGFloat]! = []
+    var pieceNotOnBoardPosY: [CGFloat]! = []
+    
     init(color: String, p: Int){
         super.init()
         
@@ -40,6 +43,8 @@ class Player: NSObject, NSCoding{
         self.pieces = aDecoder.decodeObjectForKey("pieces") as [Piece]
         self.score = aDecoder.decodeIntegerForKey("score")
         self.turn = aDecoder.decodeBoolForKey("turn")
+        self.pieceNotOnBoardPosX = aDecoder.decodeObjectForKey("pieceNotOnBoardPosX") as [CGFloat]
+        self.pieceNotOnBoardPosY = aDecoder.decodeObjectForKey("pieceNotOnBoardPosY") as [CGFloat]
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
@@ -47,6 +52,8 @@ class Player: NSObject, NSCoding{
         aCoder.encodeObject(self.pieces, forKey: "pieces")
         aCoder.encodeInteger(self.score, forKey: "score")
         aCoder.encodeBool(self.turn, forKey: "turn")
+        aCoder.encodeObject(self.pieceNotOnBoardPosX, forKey: "pieceNotOnBoardPosX")
+        aCoder.encodeObject(self.pieceNotOnBoardPosY, forKey: "pieceNotOnBoardPosY")
     }
     
     

@@ -132,6 +132,7 @@ class ViewController: UIViewController {
                 break
             }
             
+            println("state i:\(i): \(board.tiles[i].tileState.rawValue)")
             
             board.tiles[i].image = UIImageView(image: UIImage(named: "piece\(i).png"))
             board.tiles[i].image.frame = CGRect(x: board.tX[i], y: board.tY[i], width: tileWidth, height: tileHeight)
@@ -145,8 +146,14 @@ class ViewController: UIViewController {
                 println("pieces1: \(i) pos: \(player1.pieces[i].newPos) re:\(player1.pieces[i].isRemoved)")
                 println("mov: \(player1.pieces[i].moveAble)")
                 
-                player1.pieces[i].frame = CGRectMake(tileX[player1.pieces[i].newPos], tileY[player1.pieces[i].newPos], tileWidth , tileHeight)
-                player1.pieces[i].center = CGPointMake(tileX[player1.pieces[i].newPos], tileY[player1.pieces[i].newPos])
+                if player1.pieces[i].newPos == -1{
+                    player1.pieces[i].frame = CGRectMake(player1.pieceNotOnBoardPosX[i], player1.pieceNotOnBoardPosY[i], tileWidth , tileHeight)
+                    player1.pieces[i].center = CGPointMake(player1.pieceNotOnBoardPosX[i], player1.pieceNotOnBoardPosY[i])
+                } else {
+                    player1.pieces[i].frame = CGRectMake(tileX[player1.pieces[i].newPos], tileY[player1.pieces[i].newPos], tileWidth , tileHeight)
+                    player1.pieces[i].center = CGPointMake(tileX[player1.pieces[i].newPos], tileY[player1.pieces[i].newPos])
+                }
+                
                 
                 self.view.addSubview(player1.pieces[i])
             }
@@ -158,8 +165,15 @@ class ViewController: UIViewController {
                 println("pieces2: \(i) pos: \(player2.pieces[i].newPos) re:\(player2.pieces[i].isRemoved)")
                 println("mov: \(player2.pieces[i].moveAble)")
                 
-                player2.pieces[i].frame = CGRectMake(tileX[player2.pieces[i].newPos], tileY[player2.pieces[i].newPos], tileWidth , tileHeight)
-                player2.pieces[i].center = CGPointMake(tileX[player2.pieces[i].newPos], tileY[player2.pieces[i].newPos])
+                if player2.pieces[i].newPos == -1{
+                    player2.pieces[i].frame = CGRectMake(player2.pieceNotOnBoardPosX[i], player2.pieceNotOnBoardPosY[i], tileWidth , tileHeight)
+                    player2.pieces[i].center = CGPointMake(player2.pieceNotOnBoardPosX[i], player2.pieceNotOnBoardPosY[i])
+                } else {
+                    player2.pieces[i].frame = CGRectMake(tileX[player2.pieces[i].newPos], tileY[player2.pieces[i].newPos], tileWidth , tileHeight)
+                    player2.pieces[i].center = CGPointMake(tileX[player2.pieces[i].newPos], tileY[player2.pieces[i].newPos])
+                }
+                
+                
                 self.view.addSubview(player2.pieces[i])
             }
         }
@@ -221,17 +235,36 @@ class ViewController: UIViewController {
             player2 = Player(color: name, p: m)
         }
         
+        var height = CGFloat(tileWidth)
+        var width = CGFloat(tileHeight)
+        
         var col = 0, row = 0
         for var i = 0; i < m; ++i {
             var p: UIImageView!
+           
+            var x: CGFloat!
+            var y: CGFloat!
+            
             
             if name == "Green" {
+                x = leftX + (tileWidth * CGFloat(col))
+                y = tileY[tileCount-1] + ( tileHeight + (tileHeight * CGFloat(row)))
+                
+                player1.pieceNotOnBoardPosX.append(x)
+                player1.pieceNotOnBoardPosY.append(y)
+                
                 p = player1.pieces[i]
-                p.frame = CGRectMake((leftX + (tileWidth * CGFloat(col))), tileY[tileCount-1] + ( tileHeight + (tileHeight * CGFloat(row))), tileWidth, tileHeight)
+                p.frame = CGRectMake(x, y, width, height)
                 
             } else {
+                x = tileWidth * 5 + (tileWidth * CGFloat(col))
+                y = tileY[tileCount-1] + ( tileHeight + (tileHeight * CGFloat(row)))
+                
+                player2.pieceNotOnBoardPosX.append(x)
+                player2.pieceNotOnBoardPosY.append(y)
+                
                 p = player2.pieces[i]
-                p.frame = CGRectMake((tileWidth * 5 + (tileWidth * CGFloat(col))), tileY[tileCount-1] + ( tileHeight + (tileHeight * CGFloat(row))), tileWidth, tileHeight)
+                p.frame = CGRectMake(x, y, width, height)
             }
             
             col += 1
@@ -305,8 +338,12 @@ class ViewController: UIViewController {
                 }
                 
                 board.totalMarkers = totalMarkers
+            
+                board.state.removeAll(keepCapacity: false)
+                board.state = []
+                
                 for var i = 0; i < tileCount; ++i{
-                    //println("state: \(board.tiles[i].tileState.rawValue)")
+                    println("state i:\(i): \(board.tiles[i].tileState.rawValue)")
                     board.state.append(CGFloat(board.tiles[i].tileState.rawValue))
                 }
                 
@@ -446,6 +483,7 @@ class ViewController: UIViewController {
                                         board.tiles[closest].tileState = State.Red
                                     }
                                 
+                                    //println("plats 38: \(board.tiles[closest].tileState.rawValue)")
                                 
                                     if rules.checkIfMill(m.newPos, r:board.tiles[closest].tileState , s: board.tiles){
                                         setInfoLabel("\(turn) got MILLER!")

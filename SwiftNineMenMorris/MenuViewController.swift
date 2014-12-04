@@ -32,19 +32,7 @@ class MenuViewController: UIViewController {
         super.viewDidLoad()
         // Do view setup here.
    
-        /*
-        if(self.settingsDataHandler.isSettingsEmpty(self.coreDataStack) == true){
-            println("No DB found, using default values")
-            isFly = true
-            isPlayMusic = true
-            pieces = 9
-        }else{
-            var settings = self.settingsDataHandler.loadSettings(self.coreDataStack)
-            isFly = settings.p1
-            isPlayMusic = settings.p2
-            pieces = settings.p3
-            println("DB found, loading values")
-        }*/
+        clearArrays()
         
     }
     
@@ -185,13 +173,9 @@ class MenuViewController: UIViewController {
             
             /*
             Async.background{
-                // Save settings.
-                println("isSettingsEmpty: \(self.settingsDataHandler.isSettingsEmpty(self.coreDataStack))")
-                println("SAVED-> isFly: \(self.isFly) isMusic: \(self.isPlayMusic) Pieces: \(self.pieces)")
-                self.settingsDataHandler.saveSettings(self.isFly.boolValue, isMusic: self.isPlayMusic.boolValue, pieces: self.pieces, coreDataStack: self.coreDataStack)
-                */
-            //} // Nothing to update...
-            
+
+            } // Nothing to update...
+            */
             println("Pieces: \(pieces) Fly: \(isFly)")
         }
         
